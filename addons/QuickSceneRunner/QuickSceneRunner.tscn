@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/QuickSceneRunner/SceneRunner.gd" type="Script" id=1]
+
+[node name="QuickSceneRunner" type="VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+margin_right = 156.0
+margin_bottom = 100.0
+text = "Add scene"
+
+[node name="Scenes" type="GridContainer" parent="."]
+margin_top = 104.0
+margin_right = 156.0
+margin_bottom = 104.0
+columns = 2
+[connection signal="pressed" from="Button" to="." method="on_add"]
