@@ -35,11 +35,18 @@ func add_scene(path: String):
 	scene.get_node("VBoxContainer/HBoxContainer/Path").text = path
 	scene.get_node("VBoxContainer/HBoxContainer2/Bound").group = shortcut_group
 	scene.get_node("VBoxContainer/HBoxContainer2/Bound").connect("pressed", self, "update_selected", [scene])
+	scene.get_node("VBoxContainer/HBoxContainer/Del").icon = get_icon("Remove", "EditorIcons")
 	scene.get_node("VBoxContainer/HBoxContainer/Del").connect("pressed", self, "remove_scene", [scene])
+	scene.get_node("VBoxContainer/HBoxContainer/Del2").icon = get_icon("Remove", "EditorIcons")
+	scene.get_node("VBoxContainer/HBoxContainer/Del2").connect("pressed", self, "remove_scene", [scene])
 	scene.get_node("VBoxContainer/HBoxContainer2/Run").connect("pressed", self, "run_scene", [scene])
+	scene.get_node("VBoxContainer/HBoxContainer2/Edit").connect("pressed", self, "edit_scene", [scene])
 	scene.get_node("VBoxContainer/HBoxContainer/Path").connect("text_changed", self, "save_scenes")
 
 func remove_scene(scene: Control):
+	if not scene.get_node("VBoxContainer/HBoxContainer/Del").pressed or not scene.get_node("VBoxContainer/HBoxContainer/Del2").pressed:
+		return
+	
 	scene.queue_free()
 	yield(get_tree(), "idle_frame")
 	if ProjectSettings.get_setting(SELECTED_SCENE_SETTING) as int >= $Scenes.get_child_count():
@@ -59,6 +66,14 @@ func run_scene(scene: Control):
 		plugin.run_scene(path)
 	else:
 		push_error("Quick Scenes: Invalid scene to run")
+
+func edit_scene(scene: Control):
+	var path := scene.get_node("VBoxContainer/HBoxContainer/Path").text as String
+	var file := File.new()
+	if file.file_exists(path):
+		plugin.get_editor_interface().open_scene_from_path(path)
+	else:
+		push_error("Quick Scenes: Invalid scene to edit")
 
 func save_scenes(meh):
 	var scene_list := PoolStringArray()
@@ -82,3 +97,4 @@ func _unhandled_key_input(event: InputEventKey) -> void:
 			run_scene(shortcut_group.get_pressed_button().get_parent().get_parent().get_parent())
 		else:
 			push_warning("Quick Scenes: No quick scene selected for shortcut")
+		get_viewport().set_input_as_handled()
