@@ -14,7 +14,11 @@ Enable the plugin in Project Setttings. Quick Scenes should appear in your botto
 6. If this is checked, this scene will be ran after pressing the shortcut (default is F9) in the editor.
 7. Press both trash bins to delete a scene from quick access. This is safety measure, as you can't undo this action.
 
-## Notes
+## Settings
 
-The shortcut can be configured in Project Settings under Addons/Quick Scenes. You need to copy scancode from the docs though.
-Don't edit other options in this section; they are managed by the plugin, so that selected scenes are remmembered between sessions.
+The addon stores a few settings in the `project.godot` file. They can be changed in Addons/Quick Scenes section of Project Settings.
+![](https://github.com/KoBeWi/Godot-Quick-Scenes/blob/master/Media/ReadmeSettings.png)
+
+Here you can configure the shortcut used for quick-running scene. You need to copy scancode from the docs though.
+
+The other settings are used internally by the plugin. Don't touch them.
