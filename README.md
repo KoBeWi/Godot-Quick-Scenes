@@ -1,5 +1,20 @@
-This plugin allows you to select multiple scenes for quick running.
+# Godot Quick Scenes
+This plugin allows you to select multiple scenes for quick access. You can quickly edit the scene or run it. There is also dedicated shortcut for running selected scene.
 
-To use it, enable the plugin in Project Settings and open Quick Scenes dock at the bottom. There you can add scenes. You can easily get the scene path by copying it from File System dock. Then you can either run the scene from Quick Scenes dock or mark it as "Use for shortcut" and press F9 to run it.
+## Usage
 
-The addon adds 3 settings to your Project Settings under Addons/Quick Scenes. You can configure the shortcut used for running quick scene (unfortunately due to limitations, you need to copy the scancode from constants in @GlobalScope doc). Do not modify manually other settings.
+Enable the plugin in Project Setttings. Quick Scenes should appear in your bottom pannel. It looks like this (after you press the Add scene button):
+![](https://github.com/KoBeWi/Godot-Quick-Scenes/blob/master/Media/ReadmeNumbers.png)
+
+1. Opens the scenes panel.
+2. This button is always on top and adds a new empty scene entry.
+3. Path to the scene file. Best way to get it is to right-click your scene in file system dock and select Copy Path.
+4. Runs the scene at the provided path.
+5. Opens the scene in editor.
+6. If this is checked, this scene will be ran after pressing the shortcut (default is F9) in the editor.
+7. Press both trash bins to delete a scene from quick access. This is safety measure, as you can't undo this action.
+
+## Notes
+
+The shortcut can be configured in Project Settings under Addons/Quick Scenes. You need to copy scancode from the docs though.
+Don't edit other options in this section; they are managed by the plugin, so that selected scenes are remmembered between sessions.
