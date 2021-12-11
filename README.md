@@ -1,4 +1,4 @@
-# Godot Quick Scenes
+# <img src="https://github.com/KoBeWi/Godot-Quick-Scenes/blob/master/Media/Icon.png" width="64" height="64"> Godot Quick Scenes
 This plugin allows you to select multiple scenes for quick access. You can quickly edit the scene or run it. There is also dedicated shortcut for running selected scene.
 
 ## Usage
