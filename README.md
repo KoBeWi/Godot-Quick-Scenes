@@ -11,7 +11,7 @@ Enable the plugin in Project Setttings. Quick Scenes should appear in your botto
 3. Path to the scene file. Best way to get it is to right-click your scene in file system dock and select Copy Path.
 4. Runs the scene at the provided path.
 5. Opens the scene in editor.
-6. If this is checked, this scene will be ran after pressing the shortcut (default is F9) in the editor.
+6. If this is checked, this scene will be ran after pressing the shortcut (default is <kbd>F9</kbd>) in the editor.
 7. Press both trash bins to delete a scene from quick access. This is safety measure, as you can't undo this action.
 
 ## Settings
