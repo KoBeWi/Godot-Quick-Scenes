@@ -1,9 +1,9 @@
-tool
+@tool
 extends VBoxContainer
 
-const SCENE_LIST_SETTING := "addons/quick_scenes/scene_list"
-const SELECTED_SCENE_SETTING := "addons/quick_scenes/selected_scene"
-const SHORTCUT_SETTING := "addons/quick_scenes/quick_run_shortcut"
+const SCENE_LIST_SETTING = "addons/quick_scenes/scene_list"
+const SELECTED_SCENE_SETTING = "addons/quick_scenes/selected_scene"
+const SHORTCUT_SETTING = "addons/quick_scenes/quick_run_shortcut"
 
 var plugin: EditorPlugin
 var shortcut_group: ButtonGroup
@@ -20,66 +20,60 @@ func _ready() -> void:
 	select_button()
 	
 	if not ProjectSettings.has_setting(SHORTCUT_SETTING):
+		var shortcut := Shortcut.new()
+		
 		var event := InputEventKey.new()
-		event.scancode = KEY_F9
-		event.pressed = true
-		ProjectSettings.set_setting(SHORTCUT_SETTING, event)
+		event.keycode= KEY_F9
+		shortcut.events.append(event)
+		
+		ProjectSettings.set_setting(SHORTCUT_SETTING, shortcut)
 
 func on_add() -> void:
 	add_scene("")
 
 func add_scene(path: String):
-	var scene := preload("res://addons/QuickSceneRunner/QuickScene.tscn").instance()
+	var scene: Control = preload("res://addons/QuickSceneRunner/QuickScene.tscn").instantiate()
 	$Scenes.add_child(scene)
 	
-	scene.get_node("VBoxContainer/HBoxContainer/Path").text = path
-	scene.get_node("VBoxContainer/HBoxContainer2/Bound").group = shortcut_group
-	scene.get_node("VBoxContainer/HBoxContainer2/Bound").connect("pressed", self, "update_selected", [scene])
-	scene.get_node("VBoxContainer/HBoxContainer/Del").icon = get_icon("Remove", "EditorIcons")
-	scene.get_node("VBoxContainer/HBoxContainer/Del").connect("pressed", self, "remove_scene", [scene])
-	scene.get_node("VBoxContainer/HBoxContainer/Del2").icon = get_icon("Remove", "EditorIcons")
-	scene.get_node("VBoxContainer/HBoxContainer/Del2").connect("pressed", self, "remove_scene", [scene])
-	scene.get_node("VBoxContainer/HBoxContainer2/Run").connect("pressed", self, "run_scene", [scene])
-	scene.get_node("VBoxContainer/HBoxContainer2/Edit").connect("pressed", self, "edit_scene", [scene])
-	scene.get_node("VBoxContainer/HBoxContainer/Path").connect("text_changed", self, "save_scenes")
+	scene.setup(self, path)
 
 func remove_scene(scene: Control):
-	if not scene.get_node("VBoxContainer/HBoxContainer/Del").pressed or not scene.get_node("VBoxContainer/HBoxContainer/Del2").pressed:
+	if not scene.get_node(^"%Del").button_pressed or not scene.get_node(^"%Del2").button_pressed:
 		return
 	
 	scene.queue_free()
-	yield(get_tree(), "idle_frame")
+	await get_tree().process_frame
 	if ProjectSettings.get_setting(SELECTED_SCENE_SETTING) as int >= $Scenes.get_child_count():
 		ProjectSettings.set_setting(SELECTED_SCENE_SETTING, $Scenes.get_child_count() - 1)
 		ProjectSettings.save()
 		select_button()
-	save_scenes(null)
+	save_scenes()
 
 func update_selected(scene: Control):
 	ProjectSettings.set_setting(SELECTED_SCENE_SETTING, scene.get_index())
 	ProjectSettings.save()
 
 func run_scene(scene: Control):
-	var path := scene.get_node("VBoxContainer/HBoxContainer/Path").text as String
+	var path := scene.get_node(^"%Path").text as String
 	var file := File.new()
 	if file.file_exists(path):
-		plugin.run_scene(path)
+		plugin.get_editor_interface().play_custom_scene(path)
 	else:
 		push_error("Quick Scenes: Invalid scene to run")
 
 func edit_scene(scene: Control):
-	var path := scene.get_node("VBoxContainer/HBoxContainer/Path").text as String
+	var path := scene.get_node(^"%Path").text as String
 	var file := File.new()
 	if file.file_exists(path):
 		plugin.get_editor_interface().open_scene_from_path(path)
 	else:
 		push_error("Quick Scenes: Invalid scene to edit")
 
-func save_scenes(meh):
-	var scene_list := PoolStringArray()
+func save_scenes():
+	var scene_list := PackedStringArray()
 	
 	for scene in $Scenes.get_children():
-		scene_list.append(scene.get_node("VBoxContainer/HBoxContainer/Path").text)
+		scene_list.append(scene.get_node(^"%Path").text)
 	
 	ProjectSettings.set_setting(SCENE_LIST_SETTING, scene_list)
 	ProjectSettings.save()
@@ -87,12 +81,16 @@ func save_scenes(meh):
 func select_button():
 	var setting := ProjectSettings.get_setting(SELECTED_SCENE_SETTING) as int
 	if setting >= 0 and setting < $Scenes.get_child_count():
-		$Scenes.get_child(setting).get_node("VBoxContainer/HBoxContainer2/Bound").pressed = true
+		$Scenes.get_child(setting).get_node(^"%Bound").button_pressed = true
 	elif $Scenes.get_child_count() > 0:
-		$Scenes.get_child(0).get_node("VBoxContainer/HBoxContainer2/Bound").pressed = true
+		$Scenes.get_child(0).get_node(^"%Bound").button_pressed = true
 
-func _unhandled_key_input(event: InputEventKey) -> void:
-	if event.pressed and event.shortcut_match(ProjectSettings.get_setting(SHORTCUT_SETTING)):
+func _unhandled_key_input(event: InputEvent) -> void:
+	var shortcut: Shortcut = ProjectSettings.get_setting(SHORTCUT_SETTING)
+	if not shortcut:
+		return
+	
+	if event.is_pressed() and shortcut.matches_event(event):
 		if shortcut_group.get_pressed_button():
 			run_scene(shortcut_group.get_pressed_button().get_parent().get_parent().get_parent())
 		else:
