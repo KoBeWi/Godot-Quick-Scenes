@@ -55,16 +55,14 @@ func update_selected(scene: Control):
 
 func run_scene(scene: Control):
 	var path := scene.get_node(^"%Path").text as String
-	var file := File.new()
-	if file.file_exists(path):
+	if FileAccess.file_exists(path):
 		plugin.get_editor_interface().play_custom_scene(path)
 	else:
 		push_error("Quick Scenes: Invalid scene to run")
 
 func edit_scene(scene: Control):
 	var path := scene.get_node(^"%Path").text as String
-	var file := File.new()
-	if file.file_exists(path):
+	if FileAccess.file_exists(path):
 		plugin.get_editor_interface().open_scene_from_path(path)
 	else:
 		push_error("Quick Scenes: Invalid scene to edit")
