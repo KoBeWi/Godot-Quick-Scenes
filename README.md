@@ -19,7 +19,7 @@ Enable the plugin in Project Setttings. Quick Scenes should appear in your botto
 The addon stores a few settings in the `project.godot` file. They can be changed in "Addons/Quick Scenes" section of Project Settings.
 ![](https://github.com/KoBeWi/Godot-Quick-Scenes/blob/master/Media/ReadmeSettings.png)
 
-Here you can configure the shortcut used for quick-running scene. You need to copy keycode from the docs though.
+Here you can configure the shortcut used for quick-running scene.
 
 The other settings are used internally by the plugin. Don't touch them.
 
