@@ -54,7 +54,9 @@ func update_selected(scene: Control):
 	ProjectSettings.save()
 
 func run_scene(scene: Control=null):
-	if scene == null: scene = shortcut_group.get_pressed_button().get_parent().get_parent().get_parent()
+	if scene == null:
+		scene = shortcut_group.get_pressed_button().get_parent().get_parent().get_parent()
+
 	var path := scene.get_node(^"%Path").text as String
 	if FileAccess.file_exists(path):
 		plugin.get_editor_interface().play_custom_scene(path)
