@@ -72,7 +72,6 @@ func edit_scene(scene: Control):
 
 func save_scenes():
 	var scene_list := PackedStringArray()
-
 	for scene in $Scenes.get_children():
 		scene_list.append(scene.get_node(^"%Path").text)
 
