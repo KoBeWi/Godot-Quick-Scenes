@@ -8,7 +8,8 @@ func _enter_tree():
 	dock = preload("res://addons/QuickSceneRunner/QuickSceneRunner.tscn").instantiate()
 	dock.plugin = self
 	add_control_to_bottom_panel(dock, "Quick Scenes")
-	button = preload("res://addons/QuickSceneRunner/Button.gd").new()
+	button = Button.new()
+	button.pressed.connect(dock.run_scene)
 	button.dock = dock
 	button.plugin = self
 	button.icon = get_editor_interface().get_base_control().theme.get_icon("TransitionSync", "EditorIcons")
