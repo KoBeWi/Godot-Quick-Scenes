@@ -4,6 +4,7 @@ This plugin allows you to select multiple scenes for quick access. You can quick
 ## Usage
 
 Enable the plugin in Project Setttings. Quick Scenes should appear in your bottom pannel. It looks like this (after you press the Add scene button):
+
 ![](https://github.com/KoBeWi/Godot-Quick-Scenes/blob/master/Media/ReadmeNumbers.png)
 
 1. Opens the scenes panel.
@@ -17,11 +18,13 @@ Enable the plugin in Project Setttings. Quick Scenes should appear in your botto
 You can assign the scene path by right-clicking a scene file, selecting "Copy Path" option and pasting in the path field. You can also drag and drop it.
 
 The shortcut scene can also be started using a dedicated button:
+
 ![](https://github.com/KoBeWi/Godot-Quick-Scenes/blob/master/Media/ReadmeQuickButton.png)
 
 ## Settings
 
 The addon stores a few settings in the `project.godot` file. They can be changed in "Addons/Quick Scenes" section of Project Settings.
+
 ![](https://github.com/KoBeWi/Godot-Quick-Scenes/blob/master/Media/ReadmeSettings.png)
 
 Here you can configure the shortcut used for quick-running scene.
