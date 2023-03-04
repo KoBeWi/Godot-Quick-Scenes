@@ -8,11 +8,16 @@ Enable the plugin in Project Setttings. Quick Scenes should appear in your botto
 
 1. Opens the scenes panel.
 2. This button is always on top and adds a new empty scene entry.
-3. Path to the scene file. Best way to get it is to right-click your scene in file system dock and select Copy Path.
+3. Path to the scene file.
 4. Runs the scene at the provided path.
 5. Opens the scene in editor.
 6. If this is checked, this scene will be ran after pressing the shortcut (default is <kbd>F9</kbd>) in the editor.
 7. Press both trash bins to delete a scene from quick access. This is safety measure, as you can't undo this action.
+
+You can assign the scene path by right-clicking a scene file, selecting "Copy Path" option and pasting in the path field. You can also drag and drop it.
+
+The shortcut scene can also be started using a dedicated button:
+![](https://github.com/KoBeWi/Godot-Quick-Scenes/blob/master/Media/ReadmeQuickButton.png)
 
 ## Settings
 
