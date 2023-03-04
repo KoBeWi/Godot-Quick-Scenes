@@ -10,22 +10,22 @@ var shortcut_group: ButtonGroup
 
 func _ready() -> void:
 	shortcut_group = ButtonGroup.new()
-	
+
 	if not ProjectSettings.has_setting(SELECTED_SCENE_SETTING):
 		ProjectSettings.set_setting(SELECTED_SCENE_SETTING, -1)
-	
+
 	if ProjectSettings.has_setting(SCENE_LIST_SETTING):
 		for scene in ProjectSettings.get_setting(SCENE_LIST_SETTING):
 			add_scene(scene)
 	select_button()
-	
+
 	if not ProjectSettings.has_setting(SHORTCUT_SETTING):
 		var shortcut := Shortcut.new()
-		
+
 		var event := InputEventKey.new()
 		event.keycode= KEY_F9
 		shortcut.events.append(event)
-		
+
 		ProjectSettings.set_setting(SHORTCUT_SETTING, shortcut)
 
 func on_add() -> void:
@@ -34,13 +34,13 @@ func on_add() -> void:
 func add_scene(path: String):
 	var scene: Control = preload("res://addons/QuickSceneRunner/QuickScene.tscn").instantiate()
 	$Scenes.add_child(scene)
-	
+
 	scene.setup(self, path)
 
 func remove_scene(scene: Control):
 	if not scene.get_node(^"%Del").button_pressed or not scene.get_node(^"%Del2").button_pressed:
 		return
-	
+
 	scene.queue_free()
 	await get_tree().process_frame
 	if ProjectSettings.get_setting(SELECTED_SCENE_SETTING) as int >= $Scenes.get_child_count():
@@ -53,7 +53,10 @@ func update_selected(scene: Control):
 	ProjectSettings.set_setting(SELECTED_SCENE_SETTING, scene.get_index())
 	ProjectSettings.save()
 
-func run_scene(scene: Control):
+func run_scene(scene: Control=null):
+	if scene == null:
+		scene = shortcut_group.get_pressed_button().get_parent().get_parent().get_parent()
+
 	var path := scene.get_node(^"%Path").text as String
 	if FileAccess.file_exists(path):
 		plugin.get_editor_interface().play_custom_scene(path)
@@ -69,10 +72,9 @@ func edit_scene(scene: Control):
 
 func save_scenes():
 	var scene_list := PackedStringArray()
-	
 	for scene in $Scenes.get_children():
 		scene_list.append(scene.get_node(^"%Path").text)
-	
+
 	ProjectSettings.set_setting(SCENE_LIST_SETTING, scene_list)
 	ProjectSettings.save()
 
@@ -87,7 +89,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	var shortcut: Shortcut = ProjectSettings.get_setting(SHORTCUT_SETTING)
 	if not shortcut:
 		return
-	
+
 	if event.is_pressed() and shortcut.matches_event(event):
 		if shortcut_group.get_pressed_button():
 			run_scene(shortcut_group.get_pressed_button().get_parent().get_parent().get_parent())
