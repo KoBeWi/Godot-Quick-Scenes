@@ -37,3 +37,4 @@ func _exit_tree():
 	remove_control_from_bottom_panel(dock)
 	remove_control_from_container(CONTAINER_TOOLBAR, button)
 	dock.free()
+	button.free()
