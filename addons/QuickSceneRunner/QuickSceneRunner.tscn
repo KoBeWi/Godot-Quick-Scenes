@@ -3,13 +3,27 @@
 [ext_resource type="Script" path="res://addons/QuickSceneRunner/SceneRunner.gd" id="1"]
 
 [node name="QuickSceneRunner" type="VBoxContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 35.0
+grow_horizontal = 2
 script = ExtResource("1")
 
-[node name="Button" type="Button" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+
+[node name="AddSceneButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Add scene"
+
+[node name="AddCurrentSceneButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Add current scene"
 
 [node name="Scenes" type="HFlowContainer" parent="."]
 layout_mode = 2
 
-[connection signal="pressed" from="Button" to="." method="on_add"]
+[connection signal="pressed" from="HBoxContainer/AddSceneButton" to="." method="_on_add_scene_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/AddCurrentSceneButton" to="." method="_on_add_current_scene_button_pressed"]
