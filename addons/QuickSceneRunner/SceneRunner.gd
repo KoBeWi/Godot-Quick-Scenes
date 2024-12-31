@@ -4,13 +4,19 @@ extends VBoxContainer
 const SCENE_LIST_SETTING = "addons/quick_scenes/scene_list"
 const SELECTED_SCENE_SETTING = "addons/quick_scenes/selected_scene"
 
+@onready var add_scene_button: Button = %AddSceneButton
+@onready var add_current_scene_button: Button = %AddCurrentSceneButton
+@onready var scenes_container: HFlowContainer = $Scenes
+@onready var save_timer: Timer = $SaveTimer
+
 var plugin: EditorPlugin
 var shortcut_group: ButtonGroup
 
 func _ready() -> void:
-	if not plugin:
+	if is_part_of_edited_scene():
 		return
 	
+	plugin.scene_changed.connect(_on_scene_changed)
 	shortcut_group = ButtonGroup.new()
 	
 	if not ProjectSettings.has_setting(SELECTED_SCENE_SETTING):
@@ -19,26 +25,31 @@ func _ready() -> void:
 	if ProjectSettings.has_setting(SCENE_LIST_SETTING):
 		for scene in ProjectSettings.get_setting(SCENE_LIST_SETTING):
 			add_scene(scene)
+	
 	select_button()
 
 func _notification(what: int) -> void:
+	if is_part_of_edited_scene():
+		return
+	
 	if what == NOTIFICATION_THEME_CHANGED:
 		plugin.button.icon = get_theme_icon(&"TransitionSync", &"EditorIcons")
-
+		if not is_node_ready():
+			await ready
+		
+		add_scene_button.icon = get_theme_icon(&"Add", &"EditorIcons")
+		add_current_scene_button.icon = get_theme_icon(&"Add", &"EditorIcons")
 
 func add_scene(path: String):
 	var scene: Control = preload("res://addons/QuickSceneRunner/QuickScene.tscn").instantiate()
-	$Scenes.add_child(scene)
+	scenes_container.add_child(scene)
 	
 	scene.setup(self, path)
 
 func remove_scene(scene: Control):
-	if not scene.get_node(^"%Del").button_pressed or not scene.get_node(^"%Del2").button_pressed:
-		return
-	
 	scene.free()
 	
-	var child_count := $Scenes.get_child_count()
+	var child_count := scenes_container.get_child_count()
 	if ProjectSettings.get_setting(SELECTED_SCENE_SETTING) as int >= child_count:
 		ProjectSettings.set_setting(SELECTED_SCENE_SETTING, child_count - 1)
 		ProjectSettings.save()
@@ -54,14 +65,14 @@ func run_scene(scene: Control=null):
 	if scene == null:
 		scene = shortcut_group.get_pressed_button().get_parent().get_parent().get_parent()
 	
-	var path := scene.get_node(^"%Path").text as String
+	var path := scene.path_edit.text as String
 	if FileAccess.file_exists(path):
 		plugin.get_editor_interface().play_custom_scene(path)
 	else:
 		push_error("Quick Scenes: Invalid scene to run")
 
 func edit_scene(scene: Control):
-	var path := scene.get_node(^"%Path").text as String
+	var path := scene.path_edit.text as String
 	if FileAccess.file_exists(path):
 		plugin.get_editor_interface().open_scene_from_path(path)
 	else:
@@ -69,28 +80,32 @@ func edit_scene(scene: Control):
 
 func save_scenes():
 	var scene_list := PackedStringArray()
-	for scene in $Scenes.get_children():
-		scene_list.append(scene.get_node(^"%Path").text)
+	for scene in scenes_container.get_children():
+		scene_list.append(scene.path_edit.text)
 	
 	ProjectSettings.set_setting(SCENE_LIST_SETTING, scene_list)
 	ProjectSettings.save()
+
+func save_scenes_delayed():
+	save_timer.start()
 
 func select_button():
 	plugin.button.disabled = false
 	
 	var setting := ProjectSettings.get_setting(SELECTED_SCENE_SETTING) as int
-	if setting >= 0 and setting < $Scenes.get_child_count():
-		$Scenes.get_child(setting).get_node(^"%Bound").button_pressed = true
-	elif $Scenes.get_child_count() > 0:
-		$Scenes.get_child(0).get_node(^"%Bound").button_pressed = true
+	if setting >= 0 and setting < scenes_container.get_child_count():
+		scenes_container.get_child(setting).bound.button_pressed = true
+	elif scenes_container.get_child_count() > 0:
+		scenes_container.get_child(0).bound.button_pressed = true
 	else:
 		plugin.button.disabled = true
 
-
 func _on_add_scene_button_pressed():
 	add_scene("")
-	pass
 
 func _on_add_current_scene_button_pressed():
-	add_scene(get_tree().edited_scene_root.scene_file_path)
-	pass # Replace with function body.
+	if get_tree().edited_scene_root:
+		add_scene(get_tree().edited_scene_root.scene_file_path)
+
+func _on_scene_changed(root: Node):
+	add_current_scene_button.disabled = not root

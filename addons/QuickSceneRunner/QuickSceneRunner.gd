@@ -10,9 +10,12 @@ func _enter_tree():
 	var shortcut: Shortcut
 	if ProjectSettings.has_setting(SHORTCUT_SETTING):
 		shortcut = ProjectSettings.get_setting(SHORTCUT_SETTING)
+		if shortcut.resource_name.is_empty(): # compat
+			shortcut.resource_name = "Run Quick Scene"
 	
 	if not shortcut:
 		shortcut = Shortcut.new()
+		shortcut.resource_name = "Run Quick Scene"
 		
 		var event := InputEventKey.new()
 		event.keycode= KEY_F9
@@ -22,7 +25,7 @@ func _enter_tree():
 	
 	button = Button.new()
 	add_control_to_container(CONTAINER_TOOLBAR, button)
-	button.tooltip_text = "Run Quick Scene\nNo scene configured."
+	button.tooltip_text = "Run Quick Scene"
 	button.disabled = true
 	button.shortcut = shortcut
 	button.get_parent().move_child(button, button.get_index() - 2)
@@ -36,4 +39,5 @@ func _enter_tree():
 func _exit_tree():
 	remove_control_from_bottom_panel(dock)
 	remove_control_from_container(CONTAINER_TOOLBAR, button)
-	dock.free()
+	dock.queue_free()
+	button.queue_free()
