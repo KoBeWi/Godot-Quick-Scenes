@@ -25,8 +25,6 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_THEME_CHANGED:
 		plugin.button.icon = get_theme_icon(&"TransitionSync", &"EditorIcons")
 
-func on_add() -> void:
-	add_scene("")
 
 func add_scene(path: String):
 	var scene: Control = preload("res://addons/QuickSceneRunner/QuickScene.tscn").instantiate()
@@ -87,3 +85,12 @@ func select_button():
 		$Scenes.get_child(0).get_node(^"%Bound").button_pressed = true
 	else:
 		plugin.button.disabled = true
+
+
+func _on_add_scene_button_pressed():
+	add_scene("")
+	pass
+
+func _on_add_current_scene_button_pressed():
+	add_scene(get_tree().edited_scene_root.scene_file_path)
+	pass # Replace with function body.
