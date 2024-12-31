@@ -32,6 +32,7 @@ The addon stores a few settings in the `project.godot` file. They can be changed
 Here you can configure the shortcut used for quick-running scene.
 
 The other settings are used internally by the plugin. Don't touch them.
+Your scenes are stored as UIDs, so the plugin is capable of "auto-updating" them. If you move a scene referenced by the plugin, just reload the plugin and the path will be updated.
 
 ___
 You can find all my addons on my [profile page](https://github.com/KoBeWi).
