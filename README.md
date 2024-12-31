@@ -1,31 +1,33 @@
-# <img src="https://github.com/KoBeWi/Godot-Quick-Scenes/blob/master/Media/Icon.png" width="64" height="64"> Godot Quick Scenes
+# <img src="Media/Icon.png" width="64" height="64"> Godot Quick Scenes
 This plugin allows you to select multiple scenes for quick access. You can quickly edit the scene or run it. There is also dedicated shortcut for running selected scene.
 
 ## Usage
 
-Enable the plugin in Project Setttings. Quick Scenes should appear in your bottom pannel. It looks like this (after you press the Add scene button):
+Enable the plugin in Project Setttings. Quick Scenes should appear in your bottom pannel. It looks like this (after you press the Add Scene button):
 
-![](https://github.com/KoBeWi/Godot-Quick-Scenes/blob/master/Media/ReadmeNumbers.png)
+![](Media/ReadmeNumbers.png)
 
 1. Opens the scenes panel.
-2. This button is always on top and adds a new empty scene entry.
-3. Path to the scene file.
-4. Runs the scene at the provided path.
-5. Opens the scene in editor.
-6. If this is checked, this scene will be ran after pressing the shortcut (default is <kbd>F9</kbd>) in the editor.
-7. Press both trash bins to delete a scene from quick access. This is safety measure, as you can't undo this action.
+2. Adds a new empty scene entry.
+3. Adds a new scene entry with path to the currently opened scene. Disabled when the scene is empty.
+4. Path to the scene file.
+5. Runs the scene at the provided path.
+6. Opens the scene in the editor.
+7. If this is checked, this scene will be ran after pressing the shortcut (default is <kbd>F9</kbd>) in the editor.
+8. Hold this button for one second to delete the scene. You can't undo this action.
+9. The buttons are disabled if the path does not point to a valid scene.
 
 You can assign the scene path by right-clicking a scene file, selecting "Copy Path" option and pasting in the path field. You can also drag and drop it.
 
 The shortcut scene can also be started using a dedicated button:
 
-![](https://github.com/KoBeWi/Godot-Quick-Scenes/blob/master/Media/ReadmeQuickButton.png)
+![](Media/ReadmeQuickButton.png)
 
 ## Settings
 
 The addon stores a few settings in the `project.godot` file. They can be changed in "Addons/Quick Scenes" section of Project Settings.
 
-![](https://github.com/KoBeWi/Godot-Quick-Scenes/blob/master/Media/ReadmeSettings.png)
+![](Media/ReadmeSettings.png)
 
 Here you can configure the shortcut used for quick-running scene.
 
