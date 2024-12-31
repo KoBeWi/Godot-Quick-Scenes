@@ -18,6 +18,9 @@ func _ready() -> void:
 func setup(plugin_: Node, path: String):
 	plugin = plugin_
 	
+	if path.begins_with("uid://"):
+		var id := ResourceUID.text_to_id(path)
+		path = ResourceUID.get_id_path(id)
 	path_edit.text = path
 	bound.button_group = plugin.shortcut_group
 	bound.pressed.connect(plugin.update_selected.bind(self))

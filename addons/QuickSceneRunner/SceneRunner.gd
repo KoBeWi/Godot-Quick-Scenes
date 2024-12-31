@@ -81,7 +81,11 @@ func edit_scene(scene: Control):
 func save_scenes():
 	var scene_list := PackedStringArray()
 	for scene in scenes_container.get_children():
-		scene_list.append(scene.path_edit.text)
+		var path: String = scene.path_edit.text
+		var id := ResourceLoader.get_resource_uid(path)
+		if id != ResourceUID.INVALID_ID:
+			path = ResourceUID.id_to_text(id)
+		scene_list.append(path)
 	
 	ProjectSettings.set_setting(SCENE_LIST_SETTING, scene_list)
 	ProjectSettings.save()
