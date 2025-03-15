@@ -27,7 +27,7 @@ func setup(plugin_: Node, path: String):
 	run.pressed.connect(plugin.run_scene.bind(self))
 	edit.pressed.connect(plugin.edit_scene.bind(self))
 	request_save.connect(plugin.save_scenes_delayed)
-	_on_path_text_changed(path)
+	_on_path_text_changed(path, false)
 
 func _notification(what: int) -> void:
 	if is_part_of_edited_scene():
@@ -58,7 +58,7 @@ func drop_data(at_position: Vector2, data) -> void:
 	path_edit.text = data.files[0]
 	_on_path_text_changed(data.files[0])
 
-func _on_path_text_changed(new_text: String) -> void:
+func _on_path_text_changed(new_text: String, save := true) -> void:
 	var invalid: bool
 	
 	if not ResourceLoader.exists(new_text):
@@ -73,7 +73,9 @@ func _on_path_text_changed(new_text: String) -> void:
 	bound.disabled = invalid
 	run.disabled = invalid
 	edit.disabled = invalid
-	request_save.emit()
+	
+	if save:
+		request_save.emit()
 
 func _on_delete_button_down() -> void:
 	set_process_internal(true)

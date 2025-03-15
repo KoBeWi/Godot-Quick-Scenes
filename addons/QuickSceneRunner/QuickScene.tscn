@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b6qyveu25w7m5"]
 
-[ext_resource type="Script" path="res://addons/QuickSceneRunner/QuickScene.gd" id="1_jio3d"]
+[ext_resource type="Script" uid="uid://ds1qnf3ewq0n5" path="res://addons/QuickSceneRunner/QuickScene.gd" id="1_jio3d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lmcyq"]
 content_margin_left = 4.0
