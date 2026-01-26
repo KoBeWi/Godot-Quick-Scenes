@@ -1,5 +1,5 @@
 @tool
-extends VBoxContainer
+extends EditorDock
 
 enum ShowQuickRunLabelSetting {
 	HIDDEN,
@@ -16,8 +16,8 @@ const QUICK_RUN_WIDTH_SCALE_FACTOR = 16.0
 
 @onready var add_scene_button: Button = %AddSceneButton
 @onready var add_current_scene_button: Button = %AddCurrentSceneButton
-@onready var scenes_container: HFlowContainer = $Scenes
-@onready var save_timer: Timer = $SaveTimer
+@onready var scenes_container: HFlowContainer = %Scenes
+@onready var save_timer: Timer = %SaveTimer
 
 var plugin: EditorPlugin
 var shortcut_group: ButtonGroup
@@ -71,7 +71,7 @@ func _notification(what: int) -> void:
 		add_current_scene_button.icon = get_theme_icon(&"Add", &"EditorIcons")
 
 func add_scene(path: String):
-	var scene: Control = preload("res://addons/QuickSceneRunner/QuickScene.tscn").instantiate()
+	var scene: Control = preload("uid://b6qyveu25w7m5").instantiate()
 	scenes_container.add_child(scene)
 	
 	scene.setup(self, path)
@@ -201,9 +201,10 @@ func _on_add_scene_button_pressed():
 	save_scenes()
 
 func _on_add_current_scene_button_pressed():
-	if get_tree().edited_scene_root:
-		add_scene(get_tree().edited_scene_root.scene_file_path)
-		save_scenes()
+	if not get_tree().edited_scene_root:
+		return
+	add_scene(get_tree().edited_scene_root.scene_file_path)
+	save_scenes()
 
 func _on_scene_changed(root: Node):
 	add_current_scene_button.disabled = not root

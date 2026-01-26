@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6qyveu25w7m5"]
+[gd_scene format=3 uid="uid://b6qyveu25w7m5"]
 
 [ext_resource type="Script" uid="uid://ds1qnf3ewq0n5" path="res://addons/QuickSceneRunner/QuickScene.gd" id="1_jio3d"]
 
@@ -11,34 +11,34 @@ bg_color = Color(0, 0, 0, 0.12549)
 
 [sub_resource type="Gradient" id="Gradient_xcoja"]
 offsets = PackedFloat32Array(1)
-colors = PackedColorArray(0.890196, 0.52549, 0.52549, 0.3)
+colors = PackedColorArray(0.89, 0.5251, 0.5251, 0.3)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_qyinb"]
 gradient = SubResource("Gradient_xcoja")
 width = 32
 height = 32
 
-[node name="PanelContainer" type="PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" unique_id=1333612975]
 theme_override_styles/panel = SubResource("StyleBoxFlat_lmcyq")
 script = ExtResource("1_jio3d")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1392128467]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=2041381607]
 layout_mode = 2
 
-[node name="Path" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="Path" type="LineEdit" parent="VBoxContainer/HBoxContainer" unique_id=1484817079]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Scene Path"
 
-[node name="Delete" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="Delete" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1921737688]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="DeleteProgress" type="TextureProgressBar" parent="VBoxContainer/HBoxContainer/Delete"]
+[node name="DeleteProgress" type="TextureProgressBar" parent="VBoxContainer/HBoxContainer/Delete" unique_id=1681164430]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -47,26 +47,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-max_value = 1.0
+max_value = 0.5
 step = 0.0
 fill_mode = 4
 texture_progress = SubResource("GradientTexture2D_qyinb")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=1477731342]
 layout_mode = 2
 
-[node name="Run" type="Button" parent="VBoxContainer/HBoxContainer2"]
+[node name="Run" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=1489900723]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Run Scene"
 
-[node name="Edit" type="Button" parent="VBoxContainer/HBoxContainer2"]
+[node name="Edit" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=616085704]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Edit Scene"
 
-[node name="Bound" type="CheckBox" parent="VBoxContainer/HBoxContainer2"]
+[node name="Bound" type="CheckBox" parent="VBoxContainer/HBoxContainer2" unique_id=2136564335]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Use For Shortcut"

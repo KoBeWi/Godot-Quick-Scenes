@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://cb3s0qv3xf7f4"]
+
+[ext_resource type="Texture2D" uid="uid://cjx7rj4iqty45" path="res://addons/QuickSceneRunner/Icon.png" id="1_sg2wf"]
+[ext_resource type="Script" uid="uid://56mmf3ukk5w5" path="res://addons/QuickSceneRunner/QuickSceneDock.gd" id="2_v730w"]
+
+[node name="QuickSceneRunner" type="EditorDock" unique_id=337381306]
+title = "Quick Scenes"
+dock_icon = ExtResource("1_sg2wf")
+default_slot = 8
+available_layouts = 7
+script = ExtResource("2_v730w")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=184807488]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1146413881]
+layout_mode = 2
+alignment = 1
+
+[node name="AddSceneButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=881152050]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add Scene"
+
+[node name="AddCurrentSceneButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1662787765]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add Current Scene"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1998545530]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 4
+scroll_hint_mode = 1
+
+[node name="Scenes" type="HFlowContainer" parent="VBoxContainer/ScrollContainer" unique_id=437751156]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SaveTimer" type="Timer" parent="VBoxContainer" unique_id=1805898422]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/AddSceneButton" to="." method="_on_add_scene_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/AddCurrentSceneButton" to="." method="_on_add_current_scene_button_pressed"]
+[connection signal="timeout" from="VBoxContainer/SaveTimer" to="VBoxContainer" method="save_scenes"]
