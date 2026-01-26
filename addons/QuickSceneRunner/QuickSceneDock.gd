@@ -208,3 +208,7 @@ func _on_add_current_scene_button_pressed():
 
 func _on_scene_changed(root: Node):
 	add_current_scene_button.disabled = not root
+
+func _update_layout(layout: int) -> void:
+	for scene in scenes_container.get_children():
+		scene.update_layout(layout)

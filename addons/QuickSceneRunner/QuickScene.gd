@@ -83,3 +83,6 @@ func _on_delete_button_down() -> void:
 func _on_delete_button_up() -> void:
 	set_process_internal(false)
 	delete_progress.value = 0
+
+func update_layout(layout: EditorDock.DockLayout):
+	bound.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS if layout == EditorDock.DOCK_LAYOUT_VERTICAL else TextServer.OVERRUN_NO_TRIM

@@ -19,6 +19,9 @@ width = 32
 height = 32
 
 [node name="PanelContainer" type="PanelContainer" unique_id=1333612975]
+offset_right = 350.0
+offset_bottom = 74.0
+size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_lmcyq")
 script = ExtResource("1_jio3d")
 
@@ -58,7 +61,6 @@ layout_mode = 2
 [node name="Run" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=1489900723]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
 text = "Run Scene"
 
 [node name="Edit" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=616085704]
@@ -69,6 +71,7 @@ text = "Edit Scene"
 [node name="Bound" type="CheckBox" parent="VBoxContainer/HBoxContainer2" unique_id=2136564335]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Use For Shortcut"
 
 [connection signal="text_changed" from="VBoxContainer/HBoxContainer/Path" to="." method="_on_path_text_changed"]
