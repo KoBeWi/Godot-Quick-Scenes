@@ -7,8 +7,11 @@ const SHORTCUT_PATH = "quick_scenes/play_quick_scene"
 var dock: EditorDock
 var button: Button
 
+func _init() -> void:
+	add_plugin_translations_from_directory("res://addons/QuickSceneRunner/Translations")
+
 func _enter_tree():
-	register_editor_shortcut(SHORTCUT_PATH, "Run Quick Scene", KEY_F9)
+	register_editor_shortcut(SHORTCUT_PATH, tr_extract.tr("Run Quick Scene"), KEY_F9)
 	
 	button = Button.new()
 	button.tooltip_text = "Run Quick Scene"
