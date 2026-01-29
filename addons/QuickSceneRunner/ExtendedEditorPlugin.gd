@@ -14,9 +14,9 @@ func add_plugin_translations_from_directory(path: String):
 		if translation:
 			_translation_list.append(translation)
 
-func register_editor_shortcut(path: String, shortcut_name: String, default: int):
+func register_editor_shortcut(path: String, shortcut_name: String, default: int) -> Shortcut:
 	if EditorInterface.get_editor_settings().has_shortcut(path):
-		return
+		return EditorInterface.get_editor_settings().get_shortcut(path)
 	
 	var event := InputEventKey.new()
 	
@@ -39,6 +39,7 @@ func register_editor_shortcut(path: String, shortcut_name: String, default: int)
 	shortcut.events.append(event)
 	
 	EditorInterface.get_editor_settings().add_shortcut(path, shortcut)
+	return shortcut
 
 func define_project_setting(setting: String, default_value: Variant, hint := PROPERTY_HINT_NONE, hint_string := "", basic := false, restart_if_changed := false, internal := false) -> Variant:
 	var value: Variant
@@ -55,6 +56,22 @@ func define_project_setting(setting: String, default_value: Variant, hint := PRO
 	ProjectSettings.set_as_basic(setting, basic)
 	ProjectSettings.set_restart_if_changed(setting, restart_if_changed)
 	ProjectSettings.set_as_internal(setting, internal)
+	
+	return value
+
+func define_editor_setting(setting: String, default_value: Variant, hint := PROPERTY_HINT_NONE, hint_string := "") -> Variant:
+	var value: Variant
+	var editor_settings := EditorInterface.get_editor_settings()
+	
+	if editor_settings.has_setting(setting):
+		value = editor_settings.get_setting(setting)
+	else:
+		value = default_value
+		editor_settings.set_setting(setting, default_value)
+	
+	editor_settings.set_initial_value(setting, default_value, false)
+	if hint != PROPERTY_HINT_NONE:
+		editor_settings.add_property_info({"name": setting, "type": typeof(default_value), "hint": hint, "hint_string": hint_string})
 	
 	return value
 

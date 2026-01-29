@@ -14,7 +14,7 @@ Enable the plugin in Project Setttings. Quick Scenes should appear in your botto
 5. Runs the scene at the provided path.
 6. Opens the scene in the editor.
 7. If this is checked, this scene will be ran after pressing the shortcut (default is <kbd>F9</kbd>) in the editor.
-8. Hold this button for one second to delete the scene. You can't undo this action.
+8. Hold this button for half second to delete the scene. You can't undo this action.
 9. The buttons are disabled if the path does not point to a valid scene.
 
 You can assign the scene path by right-clicking a scene file, selecting "Copy Path" option and pasting in the path field. You can also drag and drop it.

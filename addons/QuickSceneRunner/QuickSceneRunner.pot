@@ -2,6 +2,7 @@
 # res://addons/QuickSceneRunner/QuickScenePlugin.gd
 # res://addons/QuickSceneRunner/QuickSceneDock.tscn
 # res://addons/QuickSceneRunner/QuickScene.tscn
+# res://addons/QuickSceneRunner/QuickSceneDock.gd
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -13,8 +14,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: addons/QuickSceneRunner/QuickScenePlugin.gd:14
-#: addons/QuickSceneRunner/QuickScenePlugin.gd:17
+#: addons/QuickSceneRunner/QuickScenePlugin.gd:30
+#: addons/QuickSceneRunner/QuickScenePlugin.gd:50
 msgid "Run Quick Scene"
 msgstr ""
 
@@ -44,4 +45,12 @@ msgstr ""
 
 #: addons/QuickSceneRunner/QuickScene.tscn
 msgid "Use For Shortcut"
+msgstr ""
+
+#: addons/QuickSceneRunner/QuickSceneDock.gd:70
+msgid "Quick Scenes: Invalid scene to run."
+msgstr ""
+
+#: addons/QuickSceneRunner/QuickSceneDock.gd:77
+msgid "Quick Scenes: Invalid scene to edit."
 msgstr ""
