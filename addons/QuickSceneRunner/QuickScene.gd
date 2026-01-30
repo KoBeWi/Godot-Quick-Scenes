@@ -26,7 +26,6 @@ func setup(plugin_: Node, path: String):
 	bound.pressed.connect(plugin.update_selected.bind(self))
 	run.pressed.connect(plugin.run_scene.bind(self))
 	edit.pressed.connect(plugin.edit_scene.bind(self))
-	request_save.connect(plugin.save_scenes_delayed)
 	_on_path_text_changed(path, false)
 
 func _notification(what: int) -> void:

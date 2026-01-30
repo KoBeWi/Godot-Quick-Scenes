@@ -1,7 +1,8 @@
 extends EditorPlugin
 
 var _translation_list: Array[Translation]
-var _tracked_settings: PackedStringArray
+var _tracked_project_settings: PackedStringArray
+var _tracked_editor_settings: PackedStringArray
 
 var tr_extract: RefCounted
 
@@ -76,13 +77,24 @@ func define_editor_setting(setting: String, default_value: Variant, hint := PROP
 	return value
 
 func track_project_setting(setting: StringName):
-	_tracked_settings.append(setting)
+	_tracked_project_settings.append(setting)
 	if not ProjectSettings.settings_changed.is_connected(_check_settings):
 		ProjectSettings.settings_changed.connect(_check_settings)
 
+func track_editor_setting(setting: StringName):
+	_tracked_editor_settings.append(setting)
+	var es := EditorInterface.get_editor_settings()
+	if not es.settings_changed.is_connected(_check_settings):
+		es.settings_changed.connect(_check_settings)
+
 func _check_settings():
-	for setting in _tracked_settings:
+	for setting in _tracked_project_settings:
 		if ProjectSettings.check_changed_settings_in_group(setting):
+			_on_setting_changed(setting)
+			return
+	
+	for setting in _tracked_editor_settings:
+		if EditorInterface.get_editor_settings().check_changed_settings_in_group(setting):
 			_on_setting_changed(setting)
 
 func _on_setting_changed(setting: String):

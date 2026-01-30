@@ -47,4 +47,4 @@ one_shot = true
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/AddSceneButton" to="." method="_on_add_scene_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/AddCurrentSceneButton" to="." method="_on_add_current_scene_button_pressed"]
-[connection signal="timeout" from="VBoxContainer/SaveTimer" to="VBoxContainer" method="save_scenes"]
+[connection signal="timeout" from="VBoxContainer/SaveTimer" to="." method="save_scenes"]

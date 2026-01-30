@@ -42,6 +42,7 @@ func add_scene(path: String):
 	var scene: Control = preload("uid://b6qyveu25w7m5").instantiate()
 	scenes_container.add_child(scene)
 	scene.setup(self, path)
+	scene.request_save.connect(save_scenes_delayed)
 
 func remove_scene(scene: Control):
 	scene.free()
@@ -75,15 +76,17 @@ func edit_scene(scene: Control):
 	else:
 		EditorInterface.get_editor_toaster().push_toast(tr("Quick Scenes: Invalid scene to edit."), EditorToaster.SEVERITY_ERROR)
 
-func save_scenes():
-	var scene_list := PackedStringArray()
+func update_scene_list():
+	scene_list.clear()
 	for scene in scenes_container.get_children():
 		var path: String = scene.path_edit.text
 		var id := ResourceLoader.get_resource_uid(path)
 		if id != ResourceUID.INVALID_ID:
 			path = ResourceUID.id_to_text(id)
 		scene_list.append(path)
-	
+
+func save_scenes():
+	update_scene_list()
 	plugin.save_scenes(scene_list)
 
 func save_scenes_delayed():

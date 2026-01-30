@@ -15,6 +15,7 @@ const MAX_QUICK_RUN_WIDTH_SETTING = "addons/quick_scenes/max_quick_run_label_wid
 
 const LEGACY_SCENE_LIST = "addons/quick_scenes/scene_list"
 
+var scenes_path: String
 var label_state: ShowQuickRunLabelSetting
 var label_width: float
 var last_width: float
@@ -29,7 +30,8 @@ func _init() -> void:
 func _enter_tree():
 	var scene_list: PackedStringArray
 	
-	var scenes_path := define_project_setting(SCENE_LIST_SETTING, "res://quick_scenes.txt", PROPERTY_HINT_SAVE_FILE)
+	scenes_path = define_project_setting(SCENE_LIST_SETTING, "res://quick_scenes.txt", PROPERTY_HINT_SAVE_FILE)
+	track_project_setting(SCENE_LIST_SETTING)
 	
 	# Compat
 	if ProjectSettings.has_setting(LEGACY_SCENE_LIST):
@@ -42,7 +44,9 @@ func _enter_tree():
 			scene_list = scene_file.get_as_text().split("\n")
 	
 	label_state = define_editor_setting(QUICK_RUN_LABEL_SETTING, ShowQuickRunLabelSetting.HIDDEN, PROPERTY_HINT_ENUM, "Hidden,Filename Only,Full Path (if Possible)")
+	track_editor_setting(QUICK_RUN_LABEL_SETTING)
 	label_width = define_editor_setting(MAX_QUICK_RUN_WIDTH_SETTING, 200.0)
+	track_editor_setting(MAX_QUICK_RUN_WIDTH_SETTING)
 	
 	var shortcut := register_editor_shortcut(SHORTCUT_PATH, tr_extract.tr("Run Quick Scene"), KEY_F9)
 	
@@ -120,5 +124,15 @@ func set_select_button_label(path: String):
 	button.text = path_short
 
 func save_scenes(scenes: PackedStringArray):
-	var file := FileAccess.open(ProjectSettings.get_setting(SCENE_LIST_SETTING), FileAccess.WRITE)
+	var file := FileAccess.open(scenes_path, FileAccess.WRITE)
 	file.store_string("\n".join(scenes))
+
+func _on_setting_changed(setting: String):
+	if setting == QUICK_RUN_LABEL_SETTING or setting == MAX_QUICK_RUN_WIDTH_SETTING:
+		update_play_button()
+	elif setting == SCENE_LIST_SETTING:
+		var new_path := ProjectSettings.get_setting(SCENE_LIST_SETTING)
+		if FileAccess.file_exists(scenes_path) and not FileAccess.file_exists(new_path):
+			DirAccess.rename_absolute(scenes_path, new_path)
+		
+		scenes_path = new_path
