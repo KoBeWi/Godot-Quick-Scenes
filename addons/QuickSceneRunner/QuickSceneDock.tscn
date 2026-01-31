@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://56mmf3ukk5w5" path="res://addons/QuickSceneRunner/QuickSceneDock.gd" id="2_v730w"]
 
 [node name="QuickSceneRunner" type="EditorDock" unique_id=337381306]
+custom_minimum_size = Vector2(0, 120)
 title = "Quick Scenes"
 dock_icon = ExtResource("1_sg2wf")
 default_slot = 8
