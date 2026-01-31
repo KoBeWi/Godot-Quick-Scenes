@@ -18,8 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
-#: addons/QuickSceneRunner/QuickScenePlugin.gd:14
-#: addons/QuickSceneRunner/QuickScenePlugin.gd:17
+#: addons/QuickSceneRunner/QuickScenePlugin.gd:51
 msgid "Run Quick Scene"
 msgstr "Uruchom szybką scenę"
 
@@ -40,6 +39,14 @@ msgid "Scene Path"
 msgstr "Ścieżka sceny"
 
 #: addons/QuickSceneRunner/QuickScene.tscn
+msgid "Quick load scene."
+msgstr "Szybkie wczytanie sceny."
+
+#: addons/QuickSceneRunner/QuickScene.tscn
+msgid "Hold to delete scene."
+msgstr "Przytrzymaj, aby usunąć scenę."
+
+#: addons/QuickSceneRunner/QuickScene.tscn
 msgid "Run Scene"
 msgstr "Uruchom scenę"
 
@@ -50,3 +57,11 @@ msgstr "Edytuj scenę"
 #: addons/QuickSceneRunner/QuickScene.tscn
 msgid "Use For Shortcut"
 msgstr "Użyj do skrótu"
+
+#: addons/QuickSceneRunner/QuickSceneDock.gd:73
+msgid "Quick Scenes: Invalid scene to run."
+msgstr "Szybkie sceny: Nieprawidłowa scena do uruchomienia."
+
+#: addons/QuickSceneRunner/QuickSceneDock.gd:80
+msgid "Quick Scenes: Invalid scene to edit."
+msgstr "Szybkie sceny: Nieprawidłowa scena do edycji."

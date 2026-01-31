@@ -76,8 +76,9 @@ func update_play_button():
 	var selected_scene: int = dock.get_selected_scene()
 	
 	var path := ""
-	if dock.scene_list.size() > selected_scene:
-		path = ResourceUID.ensure_path(dock.scene_list[selected_scene])
+	var scene_list: PackedStringArray = dock.get_scene_list()
+	if scene_list.size() > selected_scene:
+		path = ResourceUID.ensure_path(scene_list[selected_scene])
 	
 	match label_state:
 		ShowQuickRunLabelSetting.HIDDEN:

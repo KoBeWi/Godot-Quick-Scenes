@@ -6,11 +6,13 @@ extends PanelContainer
 @onready var edit: Button = %Edit
 @onready var bound: CheckBox = %Bound
 @onready var delete: Button = %Delete
+@onready var quick_open: Button = %QuickOpen
 @onready var delete_progress: TextureProgressBar = %DeleteProgress
 
 var plugin
 
 signal request_save
+signal current_changed
 
 func _ready() -> void:
 	%Path.set_drag_forwarding(Callable(), can_drop_data, drop_data)
@@ -38,6 +40,7 @@ func _notification(what: int) -> void:
 		
 		run.icon = get_theme_icon(&"Play", &"EditorIcons")
 		edit.icon = get_theme_icon(&"Edit", &"EditorIcons")
+		quick_open.icon = get_theme_icon(&"LoadQuick", &"EditorIcons")
 		delete.icon = get_theme_icon(&"Remove", &"EditorIcons")
 		delete_progress.texture_progress.gradient.set_color(0, Color(get_theme_color(&"accent_color", &"Editor"), 0.3))
 	elif what == NOTIFICATION_INTERNAL_PROCESS:
@@ -75,6 +78,17 @@ func _on_path_text_changed(new_text: String, save := true) -> void:
 	
 	if save:
 		request_save.emit()
+	
+	if bound.button_pressed:
+		current_changed.emit()
+
+func _on_quick_open_pressed() -> void:
+	EditorInterface.popup_quick_open(_quick_open_callback, ["PackedScene"])
+
+func _quick_open_callback(path: String):
+	if not path.is_empty():
+		path_edit.text = path
+		_on_path_text_changed(path)
 
 func _on_delete_button_down() -> void:
 	set_process_internal(true)

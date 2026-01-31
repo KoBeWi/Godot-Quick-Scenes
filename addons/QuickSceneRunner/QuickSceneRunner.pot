@@ -14,8 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: addons/QuickSceneRunner/QuickScenePlugin.gd:30
-#: addons/QuickSceneRunner/QuickScenePlugin.gd:50
+#: addons/QuickSceneRunner/QuickScenePlugin.gd:51
 msgid "Run Quick Scene"
 msgstr ""
 
@@ -36,6 +35,14 @@ msgid "Scene Path"
 msgstr ""
 
 #: addons/QuickSceneRunner/QuickScene.tscn
+msgid "Quick load scene."
+msgstr ""
+
+#: addons/QuickSceneRunner/QuickScene.tscn
+msgid "Hold to delete scene."
+msgstr ""
+
+#: addons/QuickSceneRunner/QuickScene.tscn
 msgid "Run Scene"
 msgstr ""
 
@@ -47,10 +54,10 @@ msgstr ""
 msgid "Use For Shortcut"
 msgstr ""
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:70
+#: addons/QuickSceneRunner/QuickSceneDock.gd:73
 msgid "Quick Scenes: Invalid scene to run."
 msgstr ""
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:77
+#: addons/QuickSceneRunner/QuickSceneDock.gd:80
 msgid "Quick Scenes: Invalid scene to edit."
 msgstr ""

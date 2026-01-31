@@ -8,6 +8,7 @@ extends EditorDock
 
 var plugin: EditorPlugin
 var shortcut_group: ButtonGroup
+var scene_list_dirty: bool
 
 var scene_list: PackedStringArray
 var selected_scene := -1
@@ -43,6 +44,7 @@ func add_scene(path: String):
 	scenes_container.add_child(scene)
 	scene.setup(self, path)
 	scene.request_save.connect(save_scenes_delayed)
+	scene.current_changed.connect(plugin.update_play_button)
 
 func remove_scene(scene: Control):
 	scene.free()
@@ -87,10 +89,10 @@ func update_scene_list():
 		scene_list.append(path)
 
 func save_scenes():
-	update_scene_list()
-	plugin.save_scenes(scene_list)
+	plugin.save_scenes(get_scene_list())
 
 func save_scenes_delayed():
+	scene_list_dirty = true
 	save_timer.start()
 
 func select_button():
@@ -100,6 +102,13 @@ func select_button():
 		scenes_container.get_child(0).bound.button_pressed = true
 	
 	plugin.update_play_button()
+
+func get_scene_list() -> PackedStringArray:
+	if scene_list_dirty:
+		update_scene_list()
+		scene_list_dirty = false
+	
+	return scene_list
 
 func get_selected_scene() -> int:
 	for quick_scene in scenes_container.get_children():
