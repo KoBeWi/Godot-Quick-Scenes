@@ -80,6 +80,8 @@ func update_play_button():
 		path = ResourceUID.ensure_path(dock.scene_list[selected_scene])
 	
 	match label_state:
+		ShowQuickRunLabelSetting.HIDDEN:
+			set_select_button_label("")
 		ShowQuickRunLabelSetting.FILENAME_ONLY:
 			var filename := path.get_file()
 			if filename.get_extension().to_lower() == "tscn":
@@ -88,8 +90,6 @@ func update_play_button():
 			set_select_button_label(filename)
 		ShowQuickRunLabelSetting.FULL_PATH:
 			set_select_button_label(path)
-		_:
-			set_select_button_label("")
 	
 	button.tooltip_text = path
 	button.disabled = dock.selected_scene == -1
@@ -129,10 +129,15 @@ func save_scenes(scenes: PackedStringArray):
 
 func _on_setting_changed(setting: String):
 	if setting == QUICK_RUN_LABEL_SETTING or setting == MAX_QUICK_RUN_WIDTH_SETTING:
+		var es := EditorInterface.get_editor_settings()
+		label_state = es.get_setting(QUICK_RUN_LABEL_SETTING)
+		label_width = es.get_setting(MAX_QUICK_RUN_WIDTH_SETTING)
 		update_play_button()
 	elif setting == SCENE_LIST_SETTING:
 		var new_path := ProjectSettings.get_setting(SCENE_LIST_SETTING)
 		if FileAccess.file_exists(scenes_path) and not FileAccess.file_exists(new_path):
 			DirAccess.rename_absolute(scenes_path, new_path)
+			EditorInterface.get_resource_filesystem().update_file(scenes_path)
+			EditorInterface.get_resource_filesystem().update_file(new_path)
 		
 		scenes_path = new_path

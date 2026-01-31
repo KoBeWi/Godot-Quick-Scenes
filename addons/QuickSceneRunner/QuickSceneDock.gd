@@ -57,6 +57,7 @@ func remove_scene(scene: Control):
 func update_selected(scene: Control):
 	plugin.button.disabled = false
 	selected_scene = scene.get_index()
+	plugin.update_play_button()
 	save_selected_scene()
 
 func run_scene(scene: Control=null):
@@ -99,6 +100,12 @@ func select_button():
 		scenes_container.get_child(0).bound.button_pressed = true
 	
 	plugin.update_play_button()
+
+func get_selected_scene() -> int:
+	for quick_scene in scenes_container.get_children():
+		if quick_scene.bound.button_pressed:
+			return quick_scene.get_index()
+	return -1
 
 func save_selected_scene():
 	EditorInterface.get_editor_settings().set_project_metadata("quick_scenes", "selected_scene", selected_scene)
