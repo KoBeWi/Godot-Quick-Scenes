@@ -1,6 +1,7 @@
 @tool
 extends PanelContainer
 
+@onready var reorder: Button = %Reorder
 @onready var path_edit: LineEdit = %Path
 @onready var run: Button = %Run
 @onready var edit: Button = %Edit
@@ -15,7 +16,11 @@ signal request_save
 signal current_changed
 
 func _ready() -> void:
-	%Path.set_drag_forwarding(Callable(), can_drop_data, drop_data)
+	if is_part_of_edited_scene():
+		return
+	
+	path_edit.set_drag_forwarding(Callable(), can_drop_data, drop_data)
+	reorder.set_drag_forwarding(start_reorder, Callable(), Callable())
 
 func setup(plugin_: Node, path: String):
 	plugin = plugin_
@@ -34,19 +39,25 @@ func _notification(what: int) -> void:
 	if is_part_of_edited_scene():
 		return
 	
-	if what == NOTIFICATION_THEME_CHANGED:
-		if not is_node_ready():
-			await ready
+	match what:
+		NOTIFICATION_THEME_CHANGED:
+			if not is_node_ready():
+				await ready
+			
+			reorder.icon = get_theme_icon(&"TripleBar", &"EditorIcons")
+			run.icon = get_theme_icon(&"Play", &"EditorIcons")
+			edit.icon = get_theme_icon(&"Edit", &"EditorIcons")
+			quick_open.icon = get_theme_icon(&"LoadQuick", &"EditorIcons")
+			delete.icon = get_theme_icon(&"Remove", &"EditorIcons")
+			delete_progress.texture_progress.gradient.set_color(0, Color(get_theme_color(&"accent_color", &"Editor"), 0.3))
 		
-		run.icon = get_theme_icon(&"Play", &"EditorIcons")
-		edit.icon = get_theme_icon(&"Edit", &"EditorIcons")
-		quick_open.icon = get_theme_icon(&"LoadQuick", &"EditorIcons")
-		delete.icon = get_theme_icon(&"Remove", &"EditorIcons")
-		delete_progress.texture_progress.gradient.set_color(0, Color(get_theme_color(&"accent_color", &"Editor"), 0.3))
-	elif what == NOTIFICATION_INTERNAL_PROCESS:
-		delete_progress.value += get_process_delta_time()
-		if is_equal_approx(delete_progress.value, delete_progress.max_value):
-			plugin.remove_scene(self)
+		NOTIFICATION_INTERNAL_PROCESS:
+			delete_progress.value += get_process_delta_time()
+			if is_equal_approx(delete_progress.value, delete_progress.max_value):
+				plugin.remove_scene(self)
+		
+		NOTIFICATION_DRAG_END:
+			show()
 
 func can_drop_data(at_position: Vector2, data) -> bool:
 	if data.get("type", "") == "files" and "files" in data:
@@ -99,3 +110,8 @@ func _on_delete_button_up() -> void:
 
 func update_layout(layout: EditorDock.DockLayout):
 	bound.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS if layout == EditorDock.DOCK_LAYOUT_VERTICAL else TextServer.OVERRUN_NO_TRIM
+
+func start_reorder(pos: Vector2) -> Variant:
+	set_drag_preview(duplicate())
+	hide()
+	return { "type": "quick_scene", "scene": self }

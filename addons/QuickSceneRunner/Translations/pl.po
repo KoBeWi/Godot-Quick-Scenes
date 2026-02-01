@@ -35,6 +35,10 @@ msgid "Add Current Scene"
 msgstr "Dodaj aktualną scenę"
 
 #: addons/QuickSceneRunner/QuickScene.tscn
+msgid "Drag to reorder scenes."
+msgstr "Przeciągnij, aby zmienić kolejność scen."
+
+#: addons/QuickSceneRunner/QuickScene.tscn
 msgid "Scene Path"
 msgstr "Ścieżka sceny"
 
@@ -58,10 +62,10 @@ msgstr "Edytuj scenę"
 msgid "Use For Shortcut"
 msgstr "Użyj do skrótu"
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:73
+#: addons/QuickSceneRunner/QuickSceneDock.gd:100
 msgid "Quick Scenes: Invalid scene to run."
 msgstr "Szybkie sceny: Nieprawidłowa scena do uruchomienia."
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:80
+#: addons/QuickSceneRunner/QuickSceneDock.gd:107
 msgid "Quick Scenes: Invalid scene to edit."
 msgstr "Szybkie sceny: Nieprawidłowa scena do edycji."

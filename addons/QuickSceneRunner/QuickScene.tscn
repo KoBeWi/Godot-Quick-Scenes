@@ -25,29 +25,41 @@ size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_lmcyq")
 script = ExtResource("1_jio3d")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1392128467]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=624039423]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1392128467]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=2041381607]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=2041381607]
 layout_mode = 2
 
-[node name="Path" type="LineEdit" parent="VBoxContainer/HBoxContainer" unique_id=1484817079]
+[node name="Reorder" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=536559156]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Drag to reorder scenes."
+
+[node name="Path" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1484817079]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Scene Path"
 
-[node name="QuickOpen" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1363994910]
+[node name="QuickOpen" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1363994910]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Quick load scene."
 
-[node name="Delete" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1921737688]
+[node name="Delete" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1921737688]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Hold to delete scene."
 
-[node name="DeleteProgress" type="TextureProgressBar" parent="VBoxContainer/HBoxContainer/Delete" unique_id=1681164430]
+[node name="DeleteProgress" type="TextureProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer/Delete" unique_id=1681164430]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -61,26 +73,26 @@ step = 0.0
 fill_mode = 4
 texture_progress = SubResource("GradientTexture2D_qyinb")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=1477731342]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1477731342]
 layout_mode = 2
 
-[node name="Run" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=1489900723]
+[node name="Run" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1489900723]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Run Scene"
 
-[node name="Edit" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=616085704]
+[node name="Edit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=616085704]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Edit Scene"
 
-[node name="Bound" type="CheckBox" parent="VBoxContainer/HBoxContainer2" unique_id=2136564335]
+[node name="Bound" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=2136564335]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Use For Shortcut"
 
-[connection signal="text_changed" from="VBoxContainer/HBoxContainer/Path" to="." method="_on_path_text_changed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/QuickOpen" to="." method="_on_quick_open_pressed"]
-[connection signal="button_down" from="VBoxContainer/HBoxContainer/Delete" to="." method="_on_delete_button_down"]
-[connection signal="button_up" from="VBoxContainer/HBoxContainer/Delete" to="." method="_on_delete_button_up"]
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/HBoxContainer/Path" to="." method="_on_path_text_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/QuickOpen" to="." method="_on_quick_open_pressed"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/Delete" to="." method="_on_delete_button_down"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/HBoxContainer/Delete" to="." method="_on_delete_button_up"]

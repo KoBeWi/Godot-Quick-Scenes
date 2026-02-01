@@ -3,6 +3,14 @@
 [ext_resource type="Texture2D" uid="uid://cjx7rj4iqty45" path="res://addons/QuickSceneRunner/Icon.png" id="1_sg2wf"]
 [ext_resource type="Script" uid="uid://56mmf3ukk5w5" path="res://addons/QuickSceneRunner/QuickSceneDock.gd" id="2_v730w"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sg2wf"]
+bg_color = Color(1, 0.9137255, 0, 0.2509804)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 0, 1)
+
 [node name="QuickSceneRunner" type="EditorDock" unique_id=337381306]
 custom_minimum_size = Vector2(0, 120)
 title = "Quick Scenes"
@@ -40,6 +48,12 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="DropPreview" type="Panel" parent="VBoxContainer/ScrollContainer/Scenes" unique_id=198194716]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sg2wf")
 
 [node name="SaveTimer" type="Timer" parent="VBoxContainer" unique_id=1805898422]
 unique_name_in_owner = true
