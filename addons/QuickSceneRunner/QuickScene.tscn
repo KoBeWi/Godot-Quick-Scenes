@@ -9,15 +9,6 @@ content_margin_right = 4.0
 content_margin_bottom = 4.0
 bg_color = Color(0, 0, 0, 0.12549)
 
-[sub_resource type="Gradient" id="Gradient_xcoja"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(0.89, 0.5251, 0.5251, 0.3)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_qyinb"]
-gradient = SubResource("Gradient_xcoja")
-width = 32
-height = 32
-
 [node name="PanelContainer" type="PanelContainer" unique_id=1333612975]
 offset_right = 350.0
 offset_bottom = 74.0
@@ -57,21 +48,7 @@ tooltip_text = "Quick load scene."
 [node name="Delete" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1921737688]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "Hold to delete scene."
-
-[node name="DeleteProgress" type="TextureProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer/Delete" unique_id=1681164430]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-max_value = 0.5
-step = 0.0
-fill_mode = 4
-texture_progress = SubResource("GradientTexture2D_qyinb")
+tooltip_text = "Remove the scene."
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1477731342]
 layout_mode = 2
@@ -94,5 +71,4 @@ text = "Use For Shortcut"
 
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/HBoxContainer/Path" to="." method="_on_path_text_changed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/QuickOpen" to="." method="_on_quick_open_pressed"]
-[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/Delete" to="." method="_on_delete_button_down"]
-[connection signal="button_up" from="MarginContainer/VBoxContainer/HBoxContainer/Delete" to="." method="_on_delete_button_up"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Delete" to="." method="_on_delete_pressed"]

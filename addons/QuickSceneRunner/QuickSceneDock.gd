@@ -24,7 +24,7 @@ func _ready() -> void:
 	selected_scene = EditorInterface.get_editor_settings().get_project_metadata("quick_scenes", "selected_scene", -1)
 	
 	for scene in scene_list:
-		add_scene(scene)
+		add_scene(scene, false)
 	
 	select_button()
 	
@@ -65,15 +65,50 @@ func _notification(what: int) -> void:
 		NOTIFICATION_PREDELETE:
 			drop_preview.queue_free()
 
-func add_scene(path: String):
+func add_scene(path: String, ur := true):
 	var scene: Control = preload("uid://b6qyveu25w7m5").instantiate()
 	scenes_container.add_child(scene)
 	scene.setup(self, path)
 	scene.request_save.connect(save_scenes_delayed)
 	scene.current_changed.connect(plugin.update_play_button)
+	
+	if not ur:
+		return
+	
+	save_scenes_with_dirty()
+	
+	var undo_redo := EditorInterface.get_editor_undo_redo()
+	undo_redo.create_action(tr("Add Quick Scene"), UndoRedo.MERGE_DISABLE, null, false, false)
+	undo_redo.add_do_method(scenes_container, &"add_child", scene)
+	undo_redo.add_do_method(self, &"save_scenes_with_dirty")
+	undo_redo.add_do_reference(scene)
+	undo_redo.add_undo_method(scenes_container, &"remove_child", scene)
+	undo_redo.add_undo_method(self, &"save_scenes_with_dirty")
+	undo_redo.commit_action(false)
+
+func set_scene_path(scene: Control, path: String):
+	if path == scene.path_edit.text:
+		return
+	
+	var undo_redo := EditorInterface.get_editor_undo_redo()
+	undo_redo.create_action(tr("Assign Quick Scene"), UndoRedo.MERGE_DISABLE, null, false, false)
+	undo_redo.add_do_method(scene, &"set_scene_path", path)
+	undo_redo.add_do_method(self, &"save_scenes_with_dirty")
+	undo_redo.add_undo_method(scene, &"set_scene_path", scene.path_edit.text)
+	undo_redo.add_undo_method(self, &"save_scenes_with_dirty")
+	undo_redo.commit_action()
 
 func remove_scene(scene: Control):
-	scene.free()
+	var undo_redo := EditorInterface.get_editor_undo_redo()
+	undo_redo.create_action(tr("Remove Quick Scene"), UndoRedo.MERGE_DISABLE, null, false, false)
+	undo_redo.add_do_method(scenes_container, &"remove_child", scene)
+	undo_redo.add_do_method(self, &"save_scenes_with_dirty")
+	undo_redo.add_undo_method(scenes_container, &"add_child", scene)
+	undo_redo.add_undo_method(scenes_container, &"move_child", scene, scene.get_index())
+	undo_redo.add_undo_method(self, &"save_scenes_with_dirty")
+	undo_redo.add_undo_reference(scene)
+	undo_redo.commit_action()
+	
 	scene_list_dirty = true
 	
 	var child_count := scenes_container.get_child_count()
@@ -81,7 +116,6 @@ func remove_scene(scene: Control):
 		selected_scene = child_count - 1
 		save_selected_scene()
 		select_button()
-	save_scenes()
 
 func update_selected(scene: Control):
 	plugin.button.disabled = false
@@ -114,6 +148,10 @@ func update_scene_list():
 		if id != ResourceUID.INVALID_ID:
 			path = ResourceUID.id_to_text(id)
 		scene_list.append(path)
+
+func save_scenes_with_dirty():
+	scene_list_dirty = true
+	save_scenes()
 
 func save_scenes():
 	plugin.save_scenes(get_scene_list())
@@ -148,15 +186,11 @@ func save_selected_scene():
 
 func _on_add_scene_button_pressed():
 	add_scene("")
-	scene_list_dirty = true
-	save_scenes()
 
 func _on_add_current_scene_button_pressed():
 	if not get_tree().edited_scene_root:
 		return
 	add_scene(get_tree().edited_scene_root.scene_file_path)
-	scene_list_dirty = true
-	save_scenes()
 
 func _on_scene_changed(root: Node):
 	add_current_scene_button.disabled = not root
@@ -193,7 +227,14 @@ func _scene_can_drop(at_position: Vector2, data: Variant) -> bool:
 
 func _scene_drop(at_position: Vector2, data: Variant) -> void:
 	var dragged_scene: Node = data["scene"]
-	scenes_container.move_child(dragged_scene, drop_preview.get_index())
+	var new_index := drop_preview.get_index()
 	scenes_container.remove_child(drop_preview)
-	scene_list_dirty = true
-	save_scenes()
+	
+	var undo_redo := EditorInterface.get_editor_undo_redo()
+	undo_redo.create_action(tr("Move Quick Scene"), UndoRedo.MERGE_DISABLE, null, false, false)
+	undo_redo.add_do_method(scenes_container, &"move_child", dragged_scene, new_index)
+	undo_redo.add_do_method(self, &"save_scenes_with_dirty")
+	undo_redo.add_undo_method(scenes_container, &"move_child", dragged_scene, dragged_scene.get_index())
+	undo_redo.add_undo_method(self, &"save_scenes_with_dirty")
+	undo_redo.commit_action()
+	

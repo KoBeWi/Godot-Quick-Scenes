@@ -19,10 +19,10 @@ Enable the plugin in Project Setttings. BQuick Scenes should appear in your bott
 ![](Media/ReadmeReorder.webp)
 
 9. Click this button to quick load a scene.
-10. Hold this button to delete the scene. You can't undo this action.
+10. Click this button to delete the scene.
 11. The buttons are disabled if the path does not point to a valid scene.
 
-The Quick Scenes dock also supports vertical and floating layouts (just right-click the dock button, or drag it). You can assign the scene path by right-clicking a scene file, selecting "Copy Path" option and pasting in the path field. You can also drag and drop it, or use the Quick Load button.
+The Quick Scenes dock also supports vertical and floating layouts (just right-click the dock button, or drag it). You can assign the scene path by right-clicking a scene file, selecting "Copy Path" option and pasting in the path field. You can also drag and drop it, or use the Quick Load button. The dock supports undo/redo (except for editing the path text manually).
 
 The shortcut scene can also be started using a dedicated button:
 
