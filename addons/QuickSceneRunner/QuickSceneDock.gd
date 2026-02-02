@@ -125,7 +125,7 @@ func update_selected(scene: Control):
 
 func run_scene(scene: Control=null):
 	if scene == null:
-		scene = shortcut_group.get_pressed_button().get_parent().get_parent().get_parent()
+		scene = shortcut_group.get_pressed_button().owner
 	
 	var path := scene.path_edit.text as String
 	if FileAccess.file_exists(path):
