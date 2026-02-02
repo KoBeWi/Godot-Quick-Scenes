@@ -47,8 +47,8 @@ msgid "Quick load scene."
 msgstr "Szybkie wczytanie sceny."
 
 #: addons/QuickSceneRunner/QuickScene.tscn
-msgid "Hold to delete scene."
-msgstr "Przytrzymaj, aby usunąć scenę."
+msgid "Remove the scene."
+msgstr "Usuń scenę."
 
 #: addons/QuickSceneRunner/QuickScene.tscn
 msgid "Run Scene"
@@ -62,10 +62,29 @@ msgstr "Edytuj scenę"
 msgid "Use For Shortcut"
 msgstr "Użyj do skrótu"
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:100
+#: addons/QuickSceneRunner/QuickSceneDock.gd:81
+msgid "Add Quick Scene"
+msgstr "Dodaj szybką scenę"
+
+#: addons/QuickSceneRunner/QuickSceneDock.gd:94
+msgid "Assign Quick Scene"
+msgstr "Przypisz szybką scenę"
+
+#: addons/QuickSceneRunner/QuickSceneDock.gd:103
+msgid "Remove Quick Scene"
+msgstr "Usuń szybką scenę"
+
+#: addons/QuickSceneRunner/QuickSceneDock.gd:134
 msgid "Quick Scenes: Invalid scene to run."
 msgstr "Szybkie sceny: Nieprawidłowa scena do uruchomienia."
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:107
+#: addons/QuickSceneRunner/QuickSceneDock.gd:141
 msgid "Quick Scenes: Invalid scene to edit."
 msgstr "Szybkie sceny: Nieprawidłowa scena do edycji."
+
+#: addons/QuickSceneRunner/QuickSceneDock.gd:234
+msgid "Move Quick Scene"
+msgstr "Przenieś szybką scenę"
+
+#~ msgid "Hold to delete scene."
+#~ msgstr "Przytrzymaj, aby usunąć scenę."
