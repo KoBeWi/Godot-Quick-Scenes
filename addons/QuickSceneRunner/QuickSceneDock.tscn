@@ -12,10 +12,6 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(1, 1, 0, 1)
 
-[sub_resource type="DPITexture" id="DPITexture_v730w"]
-_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#ff5d5d\" d=\"M2 1v8.586l1.293-1.293a1 1 0 0 1 1.414 0L7 10.587l2.293-2.293a1 1 0 0 1 1.414 0L13 10.586l1-1V6H9V1H2zm8 0v4h4zm-6 9.414-2 2V15h12v-2.586l-.293.293a1 1 0 0 1-1.414 0L10 10.414l-2.293 2.293a1 1 0 0 1-1.414 0L4 10.414z\"/></svg>
-"
-
 [node name="QuickSceneRunner" type="EditorDock" unique_id=337381306]
 custom_minimum_size = Vector2(0, 120)
 title = "Quick Scenes"
@@ -117,13 +113,11 @@ color = Color(0, 0, 0, 0.0627451)
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
-icon = SubResource("DPITexture_v730w")
 
 [node name="IconRemover" type="Button" parent="StyleDialog/VBoxContainer/HBoxContainer2" unique_id=1756633866]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
-icon = SubResource("DPITexture_v730w")
 
 [node name="Control" type="Control" parent="StyleDialog/VBoxContainer" unique_id=1954451168]
 layout_mode = 2
