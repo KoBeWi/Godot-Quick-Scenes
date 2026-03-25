@@ -8,10 +8,16 @@ extends PanelContainer
 @onready var bound: CheckBox = %Bound
 @onready var delete: Button = %Delete
 @onready var quick_open: Button = %QuickOpen
+@onready var custom_name: Label = %CustomName
+@onready var custom_icon: TextureRect = %CustomIcon
+@onready var border: Panel = %Border
+@onready var edit_style: Button = %EditStyle
 
 var dock: EditorDock
+var style: Dictionary
 
 signal request_save
+signal request_edit
 signal current_changed
 
 func _ready() -> void:
@@ -21,14 +27,20 @@ func _ready() -> void:
 	path_edit.set_drag_forwarding(Callable(), can_drop_data, drop_data)
 	reorder.set_drag_forwarding(start_reorder, Callable(), Callable())
 
-func setup(d: Node, path: String):
+func setup(d: Node, data: Dictionary):
 	dock = d
 	
+	var path: String = data["path"]
 	if path.begins_with("uid://"):
 		var id := ResourceUID.text_to_id(path)
 		path = ResourceUID.get_id_path(id)
+	
 	path_edit.text = path
 	bound.button_group = dock.shortcut_group
+	
+	style = data["style"]
+	apply_style()
+	
 	bound.pressed.connect(dock.update_selected.bind(self))
 	run.pressed.connect(dock.run_scene.bind(self))
 	edit.pressed.connect(dock.edit_scene.bind(self))
@@ -99,6 +111,18 @@ func _quick_open_callback(path: String):
 func update_layout(layout: EditorDock.DockLayout):
 	bound.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS if layout == EditorDock.DOCK_LAYOUT_VERTICAL else TextServer.OVERRUN_NO_TRIM
 
+func apply_style():
+	custom_name.text = style.get("name", "")
+	
+	var icon_path: String = style.get("icon", "")
+	if icon_path.is_empty():
+		custom_icon.texture = null
+	else:
+		custom_icon.texture = load(icon_path)
+	
+	border.visible = style.get("show_border", false)
+	border.modulate = Color(style.get("border_color", "ffffff"))
+
 func start_reorder(pos: Vector2) -> Variant:
 	set_drag_preview(duplicate())
 	hide()
@@ -106,3 +130,12 @@ func start_reorder(pos: Vector2) -> Variant:
 
 func _on_delete_pressed() -> void:
 	dock.remove_scene(self)
+
+func _on_edit_style_mouse_entered() -> void:
+	edit_style.icon = get_theme_icon(&"Edit", &"EditorIcons")
+
+func _on_edit_style_mouse_exited() -> void:
+	edit_style.icon = null
+
+func _on_edit_style_pressed() -> void:
+	request_edit.emit()

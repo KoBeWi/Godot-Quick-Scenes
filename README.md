@@ -28,6 +28,10 @@ The shortcut scene can also be started using a dedicated button:
 
 ![](Media/ReadmeQuickButton.png)
 
+### Styling
+
+TODO
+
 ## Settings
 
 The addon comes with a few settings.

@@ -28,20 +28,35 @@ func _init() -> void:
 	add_plugin_translations_from_directory("res://addons/QuickSceneRunner/Translations")
 
 func _enter_tree():
-	var scene_list: PackedStringArray
+	var scene_data: Array
 	
 	scenes_path = define_project_setting(SCENE_LIST_SETTING, "res://quick_scenes.txt", PROPERTY_HINT_SAVE_FILE)
 	track_project_setting(SCENE_LIST_SETTING)
 	
 	# Compat
 	if ProjectSettings.has_setting(LEGACY_SCENE_LIST):
-		scene_list = ProjectSettings.get_setting(LEGACY_SCENE_LIST)
+		var scene_list: PackedStringArray = ProjectSettings.get_setting(LEGACY_SCENE_LIST)
 		ProjectSettings.set(LEGACY_SCENE_LIST, null)
-		save_scenes(scene_list)
+		
+		for scene in scene_list:
+			scene_data.append({"path": scene, "style": {}})
+		
+		save_scenes(scene_data)
 	else:
 		var scene_file := FileAccess.open(scenes_path, FileAccess.READ)
 		if scene_file:
-			scene_list = scene_file.get_as_text().split("\n")
+			var data_string := scene_file.get_as_text()
+			var data_variant = str_to_var(data_string)
+			
+			if data_variant == null: # Compat
+				var scene_list := data_string.split("\n")
+				for scene in scene_list:
+					scene_data.append({"path": scene, "style": {}})
+				
+				scene_file.close()
+				save_scenes(scene_data)
+			else:
+				scene_data = data_variant
 	
 	label_state = define_editor_setting(QUICK_RUN_LABEL_SETTING, ShowQuickRunLabelSetting.HIDDEN, PROPERTY_HINT_ENUM, "Hidden,Filename Only,Full Path (if Possible)")
 	track_editor_setting(QUICK_RUN_LABEL_SETTING)
@@ -59,7 +74,7 @@ func _enter_tree():
 	
 	dock = preload("uid://cb3s0qv3xf7f4").instantiate()
 	dock.plugin = self
-	dock.scene_list = scene_list
+	dock.scene_list = scene_data
 	add_dock(dock)
 	
 	button.pressed.connect(dock.run_scene)
@@ -76,9 +91,9 @@ func update_play_button():
 	var selected_scene: int = dock.get_selected_scene()
 	
 	var path := ""
-	var scene_list: PackedStringArray = dock.get_scene_list()
+	var scene_list: Array = dock.get_scene_list()
 	if scene_list.size() > selected_scene:
-		path = ResourceUID.ensure_path(scene_list[selected_scene])
+		path = ResourceUID.ensure_path(scene_list[selected_scene].path)
 	
 	match label_state:
 		ShowQuickRunLabelSetting.HIDDEN:
@@ -124,9 +139,9 @@ func set_select_button_label(path: String):
 	
 	button.text = path_short
 
-func save_scenes(scenes: PackedStringArray):
+func save_scenes(scenes: Array):
 	var file := FileAccess.open(scenes_path, FileAccess.WRITE)
-	file.store_string("\n".join(scenes))
+	file.store_string(var_to_str(scenes))
 
 func _on_setting_changed(setting: String):
 	if setting == QUICK_RUN_LABEL_SETTING or setting == MAX_QUICK_RUN_WIDTH_SETTING:

@@ -5,13 +5,14 @@ extends EditorDock
 @onready var add_current_scene_button: Button = %AddCurrentSceneButton
 @onready var scenes_container: HFlowContainer = %Scenes
 @onready var save_timer: Timer = %SaveTimer
+@onready var style_dialog: AcceptDialog = $StyleDialog
 var drop_preview: Panel
 
 var plugin: EditorPlugin
 var shortcut_group: ButtonGroup
 var scene_list_dirty: bool
 
-var scene_list: PackedStringArray
+var scene_list: Array
 var selected_scene := -1
 
 func _ready() -> void:
@@ -23,8 +24,8 @@ func _ready() -> void:
 	
 	selected_scene = EditorInterface.get_editor_settings().get_project_metadata("quick_scenes", "selected_scene", -1)
 	
-	for scene in scene_list:
-		add_scene(scene, false)
+	for data in scene_list:
+		add_scene(data, false)
 	
 	select_button()
 	
@@ -35,7 +36,10 @@ func _notification(what: int) -> void:
 		return
 	
 	match what:
-		NOTIFICATION_SCENE_INSTANTIATED:
+		NOTIFICATION_ENTER_TREE:
+			if drop_preview:
+				return
+			
 			drop_preview = %DropPreview
 			drop_preview.owner = null
 			drop_preview.get_parent().remove_child(drop_preview)
@@ -63,13 +67,18 @@ func _notification(what: int) -> void:
 				scene.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_INHERITED
 		
 		NOTIFICATION_PREDELETE:
-			drop_preview.queue_free()
+			if drop_preview:
+				drop_preview.queue_free()
 
-func add_scene(path: String, ur := true):
+func add_scene_with_path(scene_path: String):
+	add_scene({path = scene_path, style = {}})
+
+func add_scene(data: Dictionary, ur := true):
 	var scene: Control = preload("uid://b6qyveu25w7m5").instantiate()
 	scenes_container.add_child(scene)
-	scene.setup(self, path)
+	scene.setup(self, data)
 	scene.request_save.connect(save_scenes_delayed)
+	scene.request_edit.connect(edit_scene_style.bind(scene))
 	scene.current_changed.connect(plugin.update_play_button)
 	
 	if not ur:
@@ -147,14 +156,19 @@ func update_scene_list():
 		var id := ResourceLoader.get_resource_uid(path)
 		if id != ResourceUID.INVALID_ID:
 			path = ResourceUID.id_to_text(id)
-		scene_list.append(path)
+		
+		
+		scene_list.append({
+			path = scene.path_edit.text,
+			style = scene.style,
+		})
+
+func save_scenes():
+	plugin.save_scenes(get_scene_list())
 
 func save_scenes_with_dirty():
 	scene_list_dirty = true
 	save_scenes()
-
-func save_scenes():
-	plugin.save_scenes(get_scene_list())
 
 func save_scenes_delayed():
 	scene_list_dirty = true
@@ -168,7 +182,7 @@ func select_button():
 	
 	plugin.update_play_button()
 
-func get_scene_list() -> PackedStringArray:
+func get_scene_list() -> Array:
 	if scene_list_dirty:
 		update_scene_list()
 		scene_list_dirty = false
@@ -184,13 +198,16 @@ func get_selected_scene() -> int:
 func save_selected_scene():
 	EditorInterface.get_editor_settings().set_project_metadata("quick_scenes", "selected_scene", selected_scene)
 
+func edit_scene_style(scene):
+	style_dialog.show_dialog(scene)
+
 func _on_add_scene_button_pressed():
-	add_scene("")
+	add_scene_with_path("")
 
 func _on_add_current_scene_button_pressed():
 	if not get_tree().edited_scene_root:
 		return
-	add_scene(get_tree().edited_scene_root.scene_file_path)
+	add_scene_with_path(get_tree().edited_scene_root.scene_file_path)
 
 func _on_scene_changed(root: Node):
 	add_current_scene_button.disabled = not root
@@ -237,4 +254,8 @@ func _scene_drop(at_position: Vector2, data: Variant) -> void:
 	undo_redo.add_undo_method(scenes_container, &"move_child", dragged_scene, dragged_scene.get_index())
 	undo_redo.add_undo_method(self, &"save_scenes_with_dirty")
 	undo_redo.commit_action()
-	
+
+func _on_style_dialog_visibility_changed() -> void:
+	if not style_dialog.visible:
+		print("savo")
+		save_scenes_with_dirty()

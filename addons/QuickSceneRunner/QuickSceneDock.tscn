@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cjx7rj4iqty45" path="res://addons/QuickSceneRunner/Icon.png" id="1_sg2wf"]
 [ext_resource type="Script" uid="uid://56mmf3ukk5w5" path="res://addons/QuickSceneRunner/QuickSceneDock.gd" id="2_v730w"]
+[ext_resource type="Script" uid="uid://dpvbh1fvcby8s" path="res://addons/QuickSceneRunner/StyleDialog.gd" id="3_v730w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sg2wf"]
 bg_color = Color(1, 0.9137255, 0, 0.2509804)
@@ -10,6 +11,10 @@ border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
 border_color = Color(1, 1, 0, 1)
+
+[sub_resource type="DPITexture" id="DPITexture_v730w"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#ff5d5d\" d=\"M2 1v8.586l1.293-1.293a1 1 0 0 1 1.414 0L7 10.587l2.293-2.293a1 1 0 0 1 1.414 0L13 10.586l1-1V6H9V1H2zm8 0v4h4zm-6 9.414-2 2V15h12v-2.586l-.293.293a1 1 0 0 1-1.414 0L10 10.414l-2.293 2.293a1 1 0 0 1-1.414 0L4 10.414z\"/></svg>
+"
 
 [node name="QuickSceneRunner" type="EditorDock" unique_id=337381306]
 custom_minimum_size = Vector2(0, 120)
@@ -60,6 +65,93 @@ unique_name_in_owner = true
 wait_time = 0.3
 one_shot = true
 
+[node name="StyleDialog" type="AcceptDialog" parent="." unique_id=850509781]
+oversampling_override = 1.0
+title = "Customize Style"
+position = Vector2i(0, 36)
+size = Vector2i(313, 300)
+extend_to_title = true
+script = ExtResource("3_v730w")
+
+[node name="VBoxContainer" type="GridContainer" parent="StyleDialog" unique_id=478406473]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 305.0
+offset_bottom = 251.0
+columns = 2
+
+[node name="Label" type="Label" parent="StyleDialog/VBoxContainer" unique_id=2039456207]
+layout_mode = 2
+text = "Name"
+
+[node name="NameEdit" type="LineEdit" parent="StyleDialog/VBoxContainer" unique_id=572846235]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="StyleDialog/VBoxContainer" unique_id=1543515071]
+layout_mode = 2
+text = "Icon"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="StyleDialog/VBoxContainer" unique_id=1905514933]
+layout_mode = 2
+
+[node name="IconPreview" type="TextureRect" parent="StyleDialog/VBoxContainer/HBoxContainer2" unique_id=1356624045]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ColorRect" type="ColorRect" parent="StyleDialog/VBoxContainer/HBoxContainer2/IconPreview" unique_id=95608420]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.0627451)
+
+[node name="IconPicker" type="Button" parent="StyleDialog/VBoxContainer/HBoxContainer2" unique_id=67581265]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+icon = SubResource("DPITexture_v730w")
+
+[node name="IconRemover" type="Button" parent="StyleDialog/VBoxContainer/HBoxContainer2" unique_id=1756633866]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+icon = SubResource("DPITexture_v730w")
+
+[node name="Control" type="Control" parent="StyleDialog/VBoxContainer" unique_id=1954451168]
+layout_mode = 2
+
+[node name="ShowBorder" type="CheckBox" parent="StyleDialog/VBoxContainer" unique_id=664221545]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Show Border"
+
+[node name="Label3" type="Label" parent="StyleDialog/VBoxContainer" unique_id=386632299]
+layout_mode = 2
+text = "Border Color"
+
+[node name="ColorEdit" type="ColorPickerButton" parent="StyleDialog/VBoxContainer" unique_id=840061244]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+edit_alpha = false
+edit_intensity = false
+
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/AddSceneButton" to="." method="_on_add_scene_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/AddCurrentSceneButton" to="." method="_on_add_current_scene_button_pressed"]
 [connection signal="timeout" from="VBoxContainer/SaveTimer" to="." method="save_scenes"]
+[connection signal="visibility_changed" from="StyleDialog" to="." method="_on_style_dialog_visibility_changed"]
+[connection signal="text_changed" from="StyleDialog/VBoxContainer/NameEdit" to="StyleDialog" method="_on_name_edit_text_changed"]
+[connection signal="pressed" from="StyleDialog/VBoxContainer/HBoxContainer2/IconPicker" to="StyleDialog" method="_on_icon_picker_pressed"]
+[connection signal="pressed" from="StyleDialog/VBoxContainer/HBoxContainer2/IconRemover" to="StyleDialog" method="_on_icon_remover_pressed"]
+[connection signal="pressed" from="StyleDialog/VBoxContainer/ShowBorder" to="StyleDialog" method="_on_show_border_pressed"]
+[connection signal="color_changed" from="StyleDialog/VBoxContainer/ColorEdit" to="StyleDialog" method="_on_color_edit_color_changed"]
