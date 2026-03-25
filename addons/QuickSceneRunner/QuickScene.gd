@@ -132,7 +132,8 @@ func _on_delete_pressed() -> void:
 	dock.remove_scene(self)
 
 func _on_edit_style_mouse_entered() -> void:
-	edit_style.icon = get_theme_icon(&"Edit", &"EditorIcons")
+	if not get_viewport().gui_is_dragging():
+		edit_style.icon = get_theme_icon(&"Edit", &"EditorIcons")
 
 func _on_edit_style_mouse_exited() -> void:
 	edit_style.icon = null

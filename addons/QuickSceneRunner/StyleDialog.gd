@@ -54,6 +54,9 @@ func _on_icon_remover_pressed() -> void:
 	edited_scene.apply_style()
 
 func _icon_picked(path: String):
+	if path.is_empty():
+		return
+	
 	icon_preview.texture = load(path)
 	
 	edited_scene.style["icon"] = ResourceUID.path_to_uid(path)

@@ -152,14 +152,14 @@ func edit_scene(scene: Control):
 func update_scene_list():
 	scene_list.clear()
 	for scene in scenes_container.get_children():
-		var path: String = scene.path_edit.text
-		var id := ResourceLoader.get_resource_uid(path)
+		var scene_path: String = scene.path_edit.text
+		var id := ResourceLoader.get_resource_uid(scene_path)
 		if id != ResourceUID.INVALID_ID:
-			path = ResourceUID.id_to_text(id)
+			scene_path = ResourceUID.id_to_text(id)
 		
 		
 		scene_list.append({
-			path = scene.path_edit.text,
+			path = scene_path,
 			style = scene.style,
 		})
 
@@ -257,5 +257,4 @@ func _scene_drop(at_position: Vector2, data: Variant) -> void:
 
 func _on_style_dialog_visibility_changed() -> void:
 	if not style_dialog.visible:
-		print("savo")
 		save_scenes_with_dirty()

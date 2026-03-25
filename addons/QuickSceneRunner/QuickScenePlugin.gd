@@ -39,7 +39,7 @@ func _enter_tree():
 		ProjectSettings.set(LEGACY_SCENE_LIST, null)
 		
 		for scene in scene_list:
-			scene_data.append({"path": scene, "style": {}})
+			scene_data.append({path = scene, style = {}})
 		
 		save_scenes(scene_data)
 	else:

@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: addons/QuickSceneRunner/QuickScenePlugin.gd:51
+#: addons/QuickSceneRunner/QuickScenePlugin.gd:66
 msgid "Run Quick Scene"
 msgstr ""
 
@@ -28,6 +28,30 @@ msgstr ""
 
 #: addons/QuickSceneRunner/QuickSceneDock.tscn
 msgid "Add Current Scene"
+msgstr ""
+
+#: addons/QuickSceneRunner/QuickSceneDock.tscn
+msgid "Customize Style"
+msgstr ""
+
+#: addons/QuickSceneRunner/QuickSceneDock.tscn
+msgid "Name"
+msgstr ""
+
+#: addons/QuickSceneRunner/QuickSceneDock.tscn
+msgid "Icon"
+msgstr ""
+
+#: addons/QuickSceneRunner/QuickSceneDock.tscn
+msgid "Show Border"
+msgstr ""
+
+#: addons/QuickSceneRunner/QuickSceneDock.tscn
+msgid "Border Color"
+msgstr ""
+
+#: addons/QuickSceneRunner/QuickScene.tscn
+msgid "Edit style of the scene entry."
 msgstr ""
 
 #: addons/QuickSceneRunner/QuickScene.tscn
@@ -58,26 +82,26 @@ msgstr ""
 msgid "Use For Shortcut"
 msgstr ""
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:81
+#: addons/QuickSceneRunner/QuickSceneDock.gd:90
 msgid "Add Quick Scene"
 msgstr ""
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:94
+#: addons/QuickSceneRunner/QuickSceneDock.gd:103
 msgid "Assign Quick Scene"
 msgstr ""
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:103
+#: addons/QuickSceneRunner/QuickSceneDock.gd:112
 msgid "Remove Quick Scene"
 msgstr ""
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:134
+#: addons/QuickSceneRunner/QuickSceneDock.gd:143
 msgid "Quick Scenes: Invalid scene to run."
 msgstr ""
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:141
+#: addons/QuickSceneRunner/QuickSceneDock.gd:150
 msgid "Quick Scenes: Invalid scene to edit."
 msgstr ""
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:234
+#: addons/QuickSceneRunner/QuickSceneDock.gd:251
 msgid "Move Quick Scene"
 msgstr ""

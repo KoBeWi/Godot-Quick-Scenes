@@ -89,6 +89,7 @@ text_overrun_behavior = 1
 [node name="EditStyle" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer" unique_id=104225753]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Edit style of the scene entry."
 theme_override_styles/normal = SubResource("StyleBoxEmpty_psuh7")
 theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_psuh7")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_psuh7")

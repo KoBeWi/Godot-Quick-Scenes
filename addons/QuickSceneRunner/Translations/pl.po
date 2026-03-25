@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
-#: addons/QuickSceneRunner/QuickScenePlugin.gd:51
+#: addons/QuickSceneRunner/QuickScenePlugin.gd:66
 msgid "Run Quick Scene"
 msgstr "Uruchom szybką scenę"
 
@@ -33,6 +33,30 @@ msgstr "Dodaj scenę"
 #: addons/QuickSceneRunner/QuickSceneDock.tscn
 msgid "Add Current Scene"
 msgstr "Dodaj aktualną scenę"
+
+#: addons/QuickSceneRunner/QuickSceneDock.tscn
+msgid "Customize Style"
+msgstr "Dostosuj styl"
+
+#: addons/QuickSceneRunner/QuickSceneDock.tscn
+msgid "Name"
+msgstr "Nazwa"
+
+#: addons/QuickSceneRunner/QuickSceneDock.tscn
+msgid "Icon"
+msgstr "Ikona"
+
+#: addons/QuickSceneRunner/QuickSceneDock.tscn
+msgid "Show Border"
+msgstr "Pokaż ramkę"
+
+#: addons/QuickSceneRunner/QuickSceneDock.tscn
+msgid "Border Color"
+msgstr "Kolor Ramki"
+
+#: addons/QuickSceneRunner/QuickScene.tscn
+msgid "Edit style of the scene entry."
+msgstr "Edytuj styl wpisu sceny."
 
 #: addons/QuickSceneRunner/QuickScene.tscn
 msgid "Drag to reorder scenes."
@@ -62,27 +86,27 @@ msgstr "Edytuj scenę"
 msgid "Use For Shortcut"
 msgstr "Użyj do skrótu"
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:81
+#: addons/QuickSceneRunner/QuickSceneDock.gd:90
 msgid "Add Quick Scene"
 msgstr "Dodaj szybką scenę"
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:94
+#: addons/QuickSceneRunner/QuickSceneDock.gd:103
 msgid "Assign Quick Scene"
 msgstr "Przypisz szybką scenę"
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:103
+#: addons/QuickSceneRunner/QuickSceneDock.gd:112
 msgid "Remove Quick Scene"
 msgstr "Usuń szybką scenę"
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:134
+#: addons/QuickSceneRunner/QuickSceneDock.gd:143
 msgid "Quick Scenes: Invalid scene to run."
 msgstr "Szybkie sceny: Nieprawidłowa scena do uruchomienia."
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:141
+#: addons/QuickSceneRunner/QuickSceneDock.gd:150
 msgid "Quick Scenes: Invalid scene to edit."
 msgstr "Szybkie sceny: Nieprawidłowa scena do edycji."
 
-#: addons/QuickSceneRunner/QuickSceneDock.gd:234
+#: addons/QuickSceneRunner/QuickSceneDock.gd:251
 msgid "Move Quick Scene"
 msgstr "Przenieś szybką scenę"
 
