@@ -92,7 +92,7 @@ func update_play_button():
 	
 	var path := ""
 	var scene_list: Array = dock.get_scene_list()
-	if scene_list.size() > selected_scene:
+	if selected_scene > -1 and scene_list.size() > selected_scene:
 		path = ResourceUID.ensure_path(scene_list[selected_scene].path)
 	
 	match label_state:

@@ -77,14 +77,16 @@ stretch_mode = 5
 [node name="CustomName" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer" unique_id=1769571526]
 unique_name_in_owner = true
 auto_translate_mode = 2
+custom_maximum_size = Vector2(-1, 64)
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 12
+text = "Test"
 horizontal_alignment = 1
-vertical_alignment = 2
-text_overrun_behavior = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="EditStyle" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer" unique_id=104225753]
 unique_name_in_owner = true

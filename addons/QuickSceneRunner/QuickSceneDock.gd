@@ -7,6 +7,7 @@ extends EditorDock
 @onready var save_timer: Timer = %SaveTimer
 @onready var style_dialog: AcceptDialog = $StyleDialog
 var drop_preview: Panel
+var drop_style: StyleBoxFlat
 
 var plugin: EditorPlugin
 var shortcut_group: ButtonGroup
@@ -43,6 +44,7 @@ func _notification(what: int) -> void:
 			drop_preview = %DropPreview
 			drop_preview.owner = null
 			drop_preview.get_parent().remove_child(drop_preview)
+			drop_style = drop_preview.get_theme_stylebox(&"panel")
 		
 		NOTIFICATION_THEME_CHANGED:
 			plugin.button.icon = get_theme_icon(&"TransitionSync", &"EditorIcons")
@@ -51,6 +53,10 @@ func _notification(what: int) -> void:
 			
 			add_scene_button.icon = get_theme_icon(&"Add", &"EditorIcons")
 			add_current_scene_button.icon = get_theme_icon(&"Add", &"EditorIcons")
+			
+			var accent_color := get_theme_color(&"accent_color", &"Editor")
+			drop_style.border_color = accent_color
+			drop_style.bg_color = Color(accent_color, 0.25)
 		
 		NOTIFICATION_DRAG_BEGIN:
 			var data = get_viewport().gui_get_drag_data()
@@ -110,29 +116,29 @@ func set_scene_path(scene: Control, path: String):
 func remove_scene(scene: Control):
 	var undo_redo := EditorInterface.get_editor_undo_redo()
 	undo_redo.create_action(tr("Remove Quick Scene"), UndoRedo.MERGE_DISABLE, null, false, false)
-	undo_redo.add_do_method(scenes_container, &"remove_child", scene)
+	undo_redo.add_do_method(self, &"do_remove_scene", scene)
 	undo_redo.add_do_method(self, &"save_scenes_with_dirty")
 	undo_redo.add_undo_method(scenes_container, &"add_child", scene)
 	undo_redo.add_undo_method(scenes_container, &"move_child", scene, scene.get_index())
 	undo_redo.add_undo_method(self, &"save_scenes_with_dirty")
 	undo_redo.add_undo_reference(scene)
 	undo_redo.commit_action()
+
+func do_remove_scene(scene: Control):
+	if scene.bound.button_pressed:
+		scene.bound.button_pressed = false
 	
-	scene_list_dirty = true
-	
-	var child_count := scenes_container.get_child_count()
-	if selected_scene >= child_count:
-		selected_scene = child_count - 1
-		save_selected_scene()
-		select_button()
+	scenes_container.remove_child(scene)
+	selected_scene = -1
+	plugin.update_play_button()
+	save_selected_scene()
 
 func update_selected(scene: Control):
-	plugin.button.disabled = false
 	selected_scene = scene.get_index()
 	plugin.update_play_button()
 	save_selected_scene()
 
-func run_scene(scene: Control=null):
+func run_scene(scene: Control = null):
 	if scene == null:
 		scene = shortcut_group.get_pressed_button().owner
 	

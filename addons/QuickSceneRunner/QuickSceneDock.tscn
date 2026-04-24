@@ -5,12 +5,10 @@
 [ext_resource type="Script" uid="uid://dpvbh1fvcby8s" path="res://addons/QuickSceneRunner/StyleDialog.gd" id="3_v730w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sg2wf"]
-bg_color = Color(1, 0.9137255, 0, 0.2509804)
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
-border_color = Color(1, 1, 0, 1)
 
 [node name="QuickSceneRunner" type="EditorDock" unique_id=337381306]
 custom_minimum_size = Vector2(0, 120)
