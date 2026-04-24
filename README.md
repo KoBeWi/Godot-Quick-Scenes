@@ -3,7 +3,7 @@ This plugin allows you to select multiple scenes for quick access. You can quick
 
 ## Usage
 
-Enable the plugin in Project Setttings. BQuick Scenes should appear in your bottom pannel. It looks like this (after you press the Add Scene button):
+Enable the plugin in Project Setttings. Quick Scenes should appear in your bottom pannel. It looks like this (after you press the Add Scene button):
 
 ![](Media/ReadmeNumbers.png)
 
