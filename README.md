@@ -34,7 +34,15 @@ The shortcut scene can also be started using a dedicated button:
 
 ### Styling
 
-TODO
+Clicking the style edit button opens the dialog for customizing appearance of the scene entry.
+
+![](Media/ReadmeStyleDialog.webp)
+
+The options are:
+- **Name**: Custom name for the scene.
+- **Icon**: Icon of the entry.
+- **Show Border**: Shows a border around entry.
+- **Border Color**: Border color.
 
 ## Settings
 
